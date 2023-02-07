@@ -2,25 +2,26 @@ package br.ufpr.model;
 
 public class Gerente {
 
-	public Gerente(int id, String nome, String email, String CPF, String telefone) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.CPF = CPF;
-		this.telefone = telefone;
-	}
-
+	private int id;
+	private String nome;
+	private String email;
+	private String Cpf;
+	private String telefone;
+	
 	public Gerente() {
 		super();
 	}
 
-	private int id;
-	private String nome;
-	private String email;
-	private String CPF;
-	private String telefone;
-
+	public Gerente(int id, String nome, String email, String Cpf, String telefone) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.Cpf = Cpf;
+		this.telefone = telefone;
+	}
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -45,12 +46,12 @@ public class Gerente {
 		this.email = email;
 	}
 
-	public String getCPF() {
-		return CPF;
+	public String getCpf() {
+		return Cpf;
 	}
 
-	public void setCPF(String cPF) {
-		CPF = cPF;
+	public void setCpf(String cPF) {
+		Cpf = cPF;
 	}
 
 	public String getTelefone() {
