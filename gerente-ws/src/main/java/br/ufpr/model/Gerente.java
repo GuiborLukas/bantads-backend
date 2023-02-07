@@ -1,6 +1,8 @@
-package br.ufpr.janke.gerente.model;
+package br.ufpr.model;
 
-public class Gerente {
+import java.io.Serializable;
+
+public class Gerente implements Serializable {
 
 	public Gerente(int id, String nome, String email, String CPF, String telefone) {
 		super();

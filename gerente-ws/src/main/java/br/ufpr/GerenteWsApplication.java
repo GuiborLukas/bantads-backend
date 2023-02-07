@@ -1,4 +1,4 @@
-package br.ufpr.janke.gerente;
+package br.ufpr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
