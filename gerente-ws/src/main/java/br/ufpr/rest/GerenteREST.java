@@ -51,7 +51,7 @@ public class GerenteREST {
 			Gerente g = lista.stream().filter(con -> con.getId() == id).findAny().orElse(null);
 			
 			if(g != null) {
-				g.setCPF(gerente.getCPF());
+				g.setCpf(gerente.getCpf());
 				g.setEmail(gerente.getEmail());
 				g.setNome(gerente.getNome());
 				g.setTelefone(gerente.getTelefone());
