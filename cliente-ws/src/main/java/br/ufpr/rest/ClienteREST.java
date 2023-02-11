@@ -1,19 +1,12 @@
 package br.ufpr.rest;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.model.Cliente;
@@ -32,6 +25,7 @@ public class ClienteREST {
 		@GetMapping("/clientes")
 		public List<ClienteDTO> obterTodosClientes() {
 			List<Cliente> lista = repo.findAll();
+			
 			// Converte lista de Entity para lista DTO
 			return lista.stream().map(e -> mapper.map(e,ClienteDTO.class)).collect(Collectors.toList());
 		}

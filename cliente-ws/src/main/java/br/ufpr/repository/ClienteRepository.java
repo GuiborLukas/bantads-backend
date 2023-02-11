@@ -6,5 +6,6 @@ import br.ufpr.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 
+	public Cliente findByCpf(String cpf);
 	
 }
