@@ -2,29 +2,27 @@ package br.ufpr.model;
 
 import java.io.Serializable;
 
-public class Endereco implements Serializable{
+public class EnderecoDTO implements Serializable{
 
 	private String tipo;
 	private String logradouro;
 	private String numero;
 	private String complemento;
-	private String bairro;
 	private String cep;
 	private String cidade;
 	private String estado;
 	
-	public Endereco() {
+	public EnderecoDTO() {
 		super();
 	}
 
-	public Endereco(String tipo, String logradouro, String numero, String complemento, String bairro, String cep, String cidade,
+	public EnderecoDTO(String tipo, String logradouro, String numero, String complemento, String cep, String cidade,
 			String estado) {
 		super();
 		this.tipo = tipo;
 		this.logradouro = logradouro;
 		this.numero = numero;
 		this.complemento = complemento;
-		this.bairro = bairro;
 		this.cep = cep;
 		this.cidade = cidade;
 		this.estado = estado;
@@ -60,14 +58,6 @@ public class Endereco implements Serializable{
 
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
-	}
-	
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
 	}
 
 	public String getCep() {
