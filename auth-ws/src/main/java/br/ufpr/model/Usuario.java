@@ -1,42 +1,39 @@
 package br.ufpr.model;
 
-import java.io.Serializable;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class Usuario implements Serializable {
+@Document(collection = "Usuario")
+public class Usuario {
 
-	private int id;
-	private String nome;
-	private String login;
-	private String senha;
-	private String perfil;
+  @Id
+  private Long id;
+  private String tipo;
+  private String login;
+  private String senha;
 
-	public Usuario() {
-		super();
-	}
-	
-	public Usuario(int id, String nome, String login, String senha, String perfil) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.login = login;
-		this.senha = senha;
-		this.perfil = perfil;
-	}
+  public Usuario() {}
 
-	public int getId() {
+  public Usuario(String tipo, String login, String senha) {
+    this.tipo = tipo;
+    this.login = login;
+    this.senha = senha;
+  }
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getTipo() {
+		return tipo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 	public String getLogin() {
@@ -53,14 +50,6 @@ public class Usuario implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-
-	public String getPerfil() {
-		return perfil;
-	}
-
-	public void setPerfil(String perfil) {
-		this.perfil = perfil;
 	}
 
 }

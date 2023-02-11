@@ -2,18 +2,18 @@ package br.ufpr.model;
 
 import java.io.Serializable;
 
-public class Usuario implements Serializable {
+public class UsuarioDTO implements Serializable {
 
 	private String nome;
 	private String login;
 	private String senha;
 	private String perfil;
 
-	public Usuario() {
+	public UsuarioDTO() {
 		super();
 	}
 	
-	public Usuario(String nome, String login, String senha, String perfil) {
+	public UsuarioDTO( String nome, String login, String senha, String perfil) {
 		super();
 		this.nome = nome;
 		this.login = login;

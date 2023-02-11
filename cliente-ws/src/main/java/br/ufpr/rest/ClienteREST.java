@@ -67,9 +67,4 @@ public class ClienteREST {
 			return cliente;
 		}
 
-		static {
-			lista.add(new Cliente(1, "Luis Cliente Teste", "luis@email.com", "11111111111", "11111111111", 5000, new Usuario(4, "Luis Cliente Teste",   "luis@email.com",   "wrc40r34",   "CLIENTE"), "Rua centro 999"));
-			lista.add(new Cliente(2, "segundo cliente", "segundo@email.com", "77777777777", "41444444444", 3000, new Usuario(5, "segundo cliente",   "segundo@email.com",   "qp8uhutz",   "CLIENTE"), "Rua Zero, 0"));
-			lista.add(new Cliente(3, "Novo cara teste", "novo@email.com", "66666666666", "49111111111", 9999.99, new Usuario(6, "Novo cara teste",   "novo@email.com",   "qrjxyrdg",   "CLIENTE"), "Rua Esquerda, 13"));
-		}
 }
