@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 public class ClienteWsApplication {
 
 	public static void main(String[] args) {
@@ -17,7 +16,7 @@ public class ClienteWsApplication {
 
 	@Bean
 	public ModelMapper modelMapper() {
-		return new ModelMapper();
+	return new ModelMapper();
 	}
 
 }

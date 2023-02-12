@@ -1,9 +1,13 @@
 package br.ufpr.rest;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,59 +18,72 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.model.Gerente;
-
+import br.ufpr.model.GerenteDTO;
+import br.ufpr.repository.GerenteRepository;
 
 @CrossOrigin
 @RestController
 
 public class GerenteREST {
 
-	public static List<Gerente> lista = new ArrayList(); 
-		@GetMapping("/gerentes")
-		public List<Gerente> obterTodosGerentes(){
-			return lista;
+	@Autowired
+	private GerenteRepository repo;
+
+	@Autowired
+	private ModelMapper mapper;
+
+	@GetMapping("/gerentes")
+	public ResponseEntity<List<GerenteDTO>> obterTodosGerentes() {
+
+		List<Gerente> lista = repo.findAll();
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(lista.stream().map(e -> mapper.map(e, GerenteDTO.class)).collect(Collectors.toList()));
+
+	}
+
+	@GetMapping("/gerentes/{id}")
+	public ResponseEntity<GerenteDTO> buscaPorId(@PathVariable Long id) {
+
+		Optional<Gerente> gerente = repo.findById(id);
+		if (gerente.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(mapper.map(gerente, GerenteDTO.class));
 		}
-		
-		@GetMapping("/gerentes/{id}")
-		public Gerente obterTodosGerentes(@PathVariable("id") int id) {
-			
-			Gerente g = lista.stream().filter(ger -> ger.getId() == id).findAny().orElse(null);
-			return g;
+	}
+
+	@PostMapping("/gerentes")
+	public ResponseEntity<GerenteDTO> inseriGerente(@RequestBody GerenteDTO gerente) {
+		repo.save(mapper.map(gerente, Gerente.class));
+		Optional<Gerente> ger = repo.findByCpf(gerente.getCpf());
+		return ResponseEntity.status(HttpStatus.OK).body(mapper.map(ger, GerenteDTO.class));
+	}
+
+	@PutMapping("/gerentes/{id}")
+	public ResponseEntity<GerenteDTO> alterarGerente(@PathVariable("id") long id, @RequestBody Gerente gerente) {
+		Optional<Gerente> ger = repo.findById(id);
+
+		if (ger.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		} else {
+			gerente.setId(id);
+			repo.save(mapper.map(gerente, Gerente.class));
+			ger = repo.findById(id);
+			return ResponseEntity.status(HttpStatus.OK).body(mapper.map(ger, GerenteDTO.class));
 		}
-		
-		@PostMapping("/gerentes")
-		public Gerente inseriGerente(@RequestBody Gerente gerente) {
-			Gerente g = lista.stream().max(Comparator.comparing(Gerente::getId)).orElse(null);
-			
-			if (g == null)
-				gerente.setId(1);
-			else
-				gerente.setId(g.getId()+1);
-			lista.add(gerente);
-			return gerente;
+
+	}
+
+	@DeleteMapping("/gerentes/{id}")
+	public ResponseEntity removerGerente(@PathVariable("id") long id) {
+
+		Optional<Gerente> gerente = repo.findById(id);
+		if (gerente.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		} else {
+			repo.delete(mapper.map(gerente, Gerente.class));
+			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
-		
-		@PutMapping("/gerentes/{id}")
-		public Gerente alterarGerente(@PathVariable("id") int id, @RequestBody Gerente gerente) {
-			Gerente g = lista.stream().filter(con -> con.getId() == id).findAny().orElse(null);
-			
-			if(g != null) {
-				g.setCpf(gerente.getCpf());
-				g.setEmail(gerente.getEmail());
-				g.setNome(gerente.getNome());
-				g.setTelefone(gerente.getTelefone());
-			}
-			
-			return g;
-		}
-		
-		@DeleteMapping("/gerentes/{id}")
-		public Gerente removerGerente(@PathVariable("id") int id) {
-			
-			Gerente gerente = lista.stream().filter(gen -> gen.getId() == id).findAny().orElse(null);
-			
-			if(gerente != null)
-				lista.removeIf(c -> c.getId()==id);
-			return gerente;
-		}
+	}
 }

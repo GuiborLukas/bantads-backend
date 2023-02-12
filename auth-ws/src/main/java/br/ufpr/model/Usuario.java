@@ -3,7 +3,7 @@ package br.ufpr.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Usuario")
+@Document(collection = "usuario")
 public class Usuario {
 
   @Id
