@@ -1,11 +1,18 @@
 package br.ufpr.repository;
 
-import org.springframework.data.mongodb.repository.*;
+import java.util.Optional;
+
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
 import br.ufpr.model.Usuario;
 
-public interface UsuarioRepository extends MongoRepository<Usuario, Long> {
+public interface UsuarioRepository extends MongoRepository<Usuario, String> {
+
+	Optional<Usuario> findById(String id);
 	
-	public Usuario findByLogin(String login);
+	Usuario findByEmail(String email);
 	
+	public long count();
+
 }

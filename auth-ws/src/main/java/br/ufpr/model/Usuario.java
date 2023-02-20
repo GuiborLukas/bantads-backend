@@ -1,47 +1,56 @@
 package br.ufpr.model;
 
+import java.io.Serializable;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "usuario")
-public class Usuario {
+@Document(collection = "usuarios")
+public class Usuario implements Serializable {
 
-  @Id
-  private Long id;
-  private String tipo;
-  private String login;
-  private String senha;
+	@Id
+	private String id;
 
-  public Usuario() {}
+	private String nome;
+	private String email;
+	private String senha;
+	private String perfil;
 
-  public Usuario(String tipo, String login, String senha) {
-    this.tipo = tipo;
-    this.login = login;
-    this.senha = senha;
-  }
+	public Usuario(String id, String nome, String email, String senha, String perfil) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.perfil = perfil;
+	}
 
-	public Long getId() {
+	public Usuario() {
+		super();
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getTipo() {
-		return tipo;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getSenha() {
@@ -50,6 +59,20 @@ public class Usuario {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public String getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(String tipo) {
+		this.perfil = tipo;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", tipo=" + perfil
+				+ "]";
 	}
 
 }

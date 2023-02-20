@@ -4,21 +4,34 @@ import java.io.Serializable;
 
 public class UsuarioDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private String id;
 	private String nome;
-	private String login;
-	private String senha;
+	private String email;
 	private String perfil;
+
+	public UsuarioDTO(String id, String nome, String email, String perfil) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.perfil = perfil;
+	}
 
 	public UsuarioDTO() {
 		super();
 	}
-	
-	public UsuarioDTO( String nome, String login, String senha, String perfil) {
-		super();
-		this.nome = nome;
-		this.login = login;
-		this.senha = senha;
-		this.perfil = perfil;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -29,20 +42,12 @@ public class UsuarioDTO implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPerfil() {
@@ -51,6 +56,11 @@ public class UsuarioDTO implements Serializable {
 
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
+	}
+
+	@Override
+	public String toString() {
+		return "UsuarioDTO [id=" + id + ", nome=" + nome + ", email=" + email + ", perfil=" + perfil + "]";
 	}
 
 }
