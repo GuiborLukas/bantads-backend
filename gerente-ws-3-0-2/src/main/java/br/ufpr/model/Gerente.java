@@ -2,23 +2,13 @@ package br.ufpr.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import jakarta.persistence.*;
 @Entity
 @Table(name = "tb_gerente")
 public class Gerente implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	@Id
+	private static final Long serialVersionUID = 1L;
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_gerente")
     private Long id;
@@ -75,16 +65,5 @@ public class Gerente implements Serializable{
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-    
-    @Override
-    public String toString() {
-        return "GerenteDTO [" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ']';
     }
 }
