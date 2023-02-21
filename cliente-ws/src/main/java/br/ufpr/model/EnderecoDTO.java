@@ -2,7 +2,7 @@ package br.ufpr.model;
 
 import java.io.Serializable;
 
-public class EnderecoDTO implements Serializable{
+public class EnderecoDTO implements Serializable {
 
 	private String tipo;
 	private String logradouro;
@@ -11,7 +11,7 @@ public class EnderecoDTO implements Serializable{
 	private String cep;
 	private String cidade;
 	private String estado;
-	
+
 	public EnderecoDTO() {
 		super();
 	}
@@ -83,5 +83,4 @@ public class EnderecoDTO implements Serializable{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
 }

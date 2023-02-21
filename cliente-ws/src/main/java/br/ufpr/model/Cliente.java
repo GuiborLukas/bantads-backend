@@ -2,34 +2,39 @@ package br.ufpr.model;
 
 import java.io.Serializable;
 
-import jakarta.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="tb_cliente")
-public class Cliente implements Serializable{
 
-	private static final Long serialVersionUID = 1L;
-	
+public class Cliente implements Serializable {
+
+private static final Long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	@Column(name="id_cliente")
 	private Long id;
-	
+
 	@Column(name="nome_cliente")
 	private String nome;
-	
+
 	@Column(name="email_cliente")
 	private String email;
-	
+
 	@Column(name="cpf_cliente")
 	private String cpf;
-	
+
 	@Column(name="telefone_cliente")
 	private String telefone;
-	
+
 	@Column(name="salario_cliente")
 	private double salario;
-	
+
 	public Cliente() {
 		super();
 	}
@@ -95,5 +100,4 @@ public class Cliente implements Serializable{
 	public static Long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
 }

@@ -3,7 +3,6 @@ package br.ufpr.model;
 import java.io.Serializable;
 
 public class Endereco implements Serializable{
-
 	private String tipo;
 	private String logradouro;
 	private String numero;
@@ -12,7 +11,7 @@ public class Endereco implements Serializable{
 	private String cep;
 	private String cidade;
 	private String estado;
-	
+
 	public Endereco() {
 		super();
 	}
@@ -61,7 +60,7 @@ public class Endereco implements Serializable{
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
-	
+
 	public String getBairro() {
 		return bairro;
 	}
@@ -93,5 +92,4 @@ public class Endereco implements Serializable{
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
-	
 }
