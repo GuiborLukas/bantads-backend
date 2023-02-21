@@ -1,13 +1,6 @@
 package br.ufpr.model;
 
-import java.io.Serializable;
-
-public class GerenteDTO implements Serializable{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class GerenteDTO {
 
 	private Long id;
 	private String nome;
@@ -69,16 +62,4 @@ public class GerenteDTO implements Serializable{
         this.telefone = telefone;
     }
 
-    @Override
-    public String toString() {
-        return "GerenteDTO [" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ']';
-    }
-    
-    
 }
