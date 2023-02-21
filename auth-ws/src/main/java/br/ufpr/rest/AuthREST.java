@@ -89,7 +89,7 @@ public class AuthREST {
 	}
 
 	@DeleteMapping("/usuario/{id}")
-	public ResponseEntity<UsuarioDTO> removeUsuario(@PathVariable("id") String id) {
+	public ResponseEntity<UsuarioDTO> removeUsuario(@PathVariable String id) {
 		try {
 			// Busca o usuario pelo id
 			Optional<Usuario> usuOpt = repository.findById(id);
@@ -108,7 +108,7 @@ public class AuthREST {
 	}
 
 	@GetMapping("/usuario/{id}")
-	public ResponseEntity<UsuarioDTO> buscaUsuarioPorId(@PathVariable("id") String id) {
+	public ResponseEntity<UsuarioDTO> buscaUsuarioPorId(@PathVariable String id) {
 		try {
 			// Busca o usuario pelo id
 			Optional<Usuario> usuOpt = repository.findById(id);
@@ -148,7 +148,7 @@ public class AuthREST {
 	}
 
 	@PutMapping("/usuario/{id}")
-	public ResponseEntity<UsuarioDTO> atualizaUsuario(@PathVariable("id") String id,
+	public ResponseEntity<UsuarioDTO> atualizaUsuario(@PathVariable String id,
 			@RequestBody Usuario usuarioAtualizado) {
 		try {
 			// Busca o usuario pelo ID
