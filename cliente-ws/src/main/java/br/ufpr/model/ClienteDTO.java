@@ -2,9 +2,7 @@ package br.ufpr.model;
 
 import java.io.Serializable;
 
-import jakarta.persistence.Column;
-
-public class ClienteDTO implements Serializable{
+public class ClienteDTO implements Serializable {
 
 	private Long id;
 	private String nome;
@@ -12,7 +10,7 @@ public class ClienteDTO implements Serializable{
 	private String cpf;
 	private String telefone;
 	private double salario;
-	
+
 	public ClienteDTO() {
 		super();
 	}
@@ -74,5 +72,4 @@ public class ClienteDTO implements Serializable{
 	public void setSalario(double salario) {
 		this.salario = salario;
 	}
-
 }
