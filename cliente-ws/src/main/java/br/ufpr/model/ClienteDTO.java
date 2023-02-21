@@ -72,4 +72,15 @@ public class ClienteDTO implements Serializable {
 	public void setSalario(double salario) {
 		this.salario = salario;
 	}
+	
+	public String toString() {
+        return "ClienteDTO [" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", salario='" + salario + '\'' +
+                ']';
+    }
 }
