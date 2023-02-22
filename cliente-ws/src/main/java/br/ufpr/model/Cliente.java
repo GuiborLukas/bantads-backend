@@ -100,16 +100,4 @@ private static final Long serialVersionUID = 1L;
 	public static Long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	@Override
-    public String toString() {
-        return "ClienteDTO [" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", salario='" + salario + '\'' +
-                ']';
-    }
 }
