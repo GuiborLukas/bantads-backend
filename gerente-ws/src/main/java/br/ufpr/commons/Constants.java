@@ -2,7 +2,7 @@ package br.ufpr.commons;
 
 public class Constants {
 
-	public static final String EXCHANGE = "gerentes";
+	public static final String EXCHANGE = "amq.direct";
 	
 	public static final String FILA_CONSULTAR = "consultar-gerente";
 	public static final String FILA_INSERIR = "inserir-gerente";
