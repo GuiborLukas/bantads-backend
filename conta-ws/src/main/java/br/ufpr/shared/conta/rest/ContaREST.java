@@ -1,4 +1,4 @@
-package br.ufpr.commons.conta.rest;
+package br.ufpr.shared.conta.rest;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.comando.conta.repository.ContaComandoRepository;
-import br.ufpr.commons.conta.model.Conta;
-import br.ufpr.commons.conta.model.ContaDTO;
-import br.ufpr.commons.conta.utils.CounterGerente;
 import br.ufpr.consulta.conta.repository.ContaConsultaRepository;
+import br.ufpr.shared.conta.model.Conta;
+import br.ufpr.shared.conta.model.ContaDTO;
+import br.ufpr.shared.conta.utils.CounterGerente;
 
 @CrossOrigin
 @RestController

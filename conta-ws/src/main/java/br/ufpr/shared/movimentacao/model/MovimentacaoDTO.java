@@ -1,4 +1,4 @@
-package br.ufpr.commons.movimentacao.model;
+package br.ufpr.shared.movimentacao.model;
 
 import java.io.Serializable;
 import java.util.Date;

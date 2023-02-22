@@ -7,7 +7,7 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Configuration;
 
-import br.ufpr.commons.Constants;
+import br.ufpr.shared.Constants;
 
 @Configuration
 public class RabbitMQConfig {

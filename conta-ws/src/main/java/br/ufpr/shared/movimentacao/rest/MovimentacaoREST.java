@@ -1,4 +1,4 @@
-package br.ufpr.commons.movimentacao.rest;
+package br.ufpr.shared.movimentacao.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.ufpr.comando.movimentacao.repository.MovimentacaoComandoRepository;
-import br.ufpr.commons.movimentacao.model.Movimentacao;
-import br.ufpr.commons.movimentacao.model.MovimentacaoDTO;
 import br.ufpr.consulta.movimentacao.repository.MovimentacaoConsultaRepository;
+import br.ufpr.shared.movimentacao.model.Movimentacao;
+import br.ufpr.shared.movimentacao.model.MovimentacaoDTO;
 
 @CrossOrigin
 @RestController

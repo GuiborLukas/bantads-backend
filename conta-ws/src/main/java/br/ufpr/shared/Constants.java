@@ -1,4 +1,4 @@
-package br.ufpr.commons;
+package br.ufpr.shared;
 
 public class Constants {
 

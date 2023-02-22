@@ -1,4 +1,4 @@
-package br.ufpr.commons.conta.utils;
+package br.ufpr.shared.conta.utils;
 
 public class CounterGerente implements Comparable<CounterGerente> {
 

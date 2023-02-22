@@ -14,9 +14,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.ufpr.comando.movimentacao.repository.MovimentacaoComandoRepository;
-import br.ufpr.commons.Constants;
-import br.ufpr.commons.movimentacao.model.Movimentacao;
-import br.ufpr.commons.movimentacao.model.MovimentacaoDTO;
+import br.ufpr.shared.Constants;
+import br.ufpr.shared.movimentacao.model.Movimentacao;
+import br.ufpr.shared.movimentacao.model.MovimentacaoDTO;
 
 @Component
 public class MovimentacaoConsultaConsumer {
