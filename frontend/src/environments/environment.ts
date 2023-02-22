@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-   BASE_URL: "http://localhost:10659/",
+  BASE_URL: "http://bantads_api_gateway:3000/",
 };
 
 /*

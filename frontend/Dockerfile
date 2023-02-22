@@ -1,21 +1,13 @@
-FROM node:alpine
-# Create app directory
+FROM node:16
+
+# RUN npm run build -- --output-path=./dist/out --prod
 WORKDIR /app
-
-COPY . .
-RUN npm install
-
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+RUN npm install -g typescript@latest
+RUN npm install -g @angular/cli@latest
 COPY package*.json ./
-
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
+COPY . ./
 
-# Bundle app source
-COPY . .
-
-EXPOSE 3000
-CMD [ "npm", "start" ]
+EXPOSE 4200 49153
+# CMD [ "ng", "serve", "--host", "0.0.0.0", "--verbose"]
+CMD [ "npm", "run", "start"]
