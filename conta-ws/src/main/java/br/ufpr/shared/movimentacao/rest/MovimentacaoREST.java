@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.ufpr.comando.movimentacao.repository.MovimentacaoComandoRepository;
 import br.ufpr.consulta.movimentacao.repository.MovimentacaoConsultaRepository;
+import br.ufpr.shared.Constants;
 import br.ufpr.shared.movimentacao.model.Movimentacao;
 import br.ufpr.shared.movimentacao.model.MovimentacaoDTO;
 
@@ -30,6 +33,12 @@ import br.ufpr.shared.movimentacao.model.MovimentacaoDTO;
 @RestController
 @RequestMapping(value = "movimentacoes")
 public class MovimentacaoREST {
+	
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 	
 	@Autowired
 	MovimentacaoComandoRepository repoComando;
@@ -86,6 +95,8 @@ public class MovimentacaoREST {
 		
 		try {
 				repoComando.save(mapper.map(movimentacao, Movimentacao.class));
+				var json = objectMapper.writeValueAsString(mapper.map(movimentacao, MovimentacaoDTO.class));
+				rabbitTemplate.convertAndSend(Constants.FILA_INSERIR_MOVIMENTACAO_C, json);
 				return ResponseEntity.status(HttpStatus.OK).body("Movimentação salva com sucesso!");
 			} catch (Exception e) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -94,26 +105,30 @@ public class MovimentacaoREST {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<MovimentacaoDTO> alterarMovimentacao(@PathVariable("id") Long id, @RequestBody Movimentacao movimentacao) {
-		Optional<Movimentacao> ger = repoComando.findById(id);
+	public ResponseEntity<MovimentacaoDTO> alterarMovimentacao(@PathVariable("id") Long id, @RequestBody Movimentacao movimentacao) throws JsonProcessingException {
+		Optional<Movimentacao> mov = repoComando.findById(id);
 		
-		if (ger.isEmpty()) {
+		if (mov.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		} else {
 			movimentacao.setId(id);
 			repoComando.save(mapper.map(movimentacao, Movimentacao.class));
-			ger = repoComando.findById(id);
-			return ResponseEntity.status(HttpStatus.OK).body(mapper.map(ger, MovimentacaoDTO.class));
+			mov = repoComando.findById(id);
+			var json = objectMapper.writeValueAsString(mapper.map(mov.get(), MovimentacaoDTO.class));
+			rabbitTemplate.convertAndSend(Constants.FILA_ALTERAR_MOVIMENTACAO_C, json);
+			return ResponseEntity.status(HttpStatus.OK).body(mapper.map(mov, MovimentacaoDTO.class));
 		}
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity removerMovimentacao(@PathVariable("id") Long id) {
+	public ResponseEntity removerMovimentacao(@PathVariable("id") Long id) throws JsonProcessingException {
 		Optional<Movimentacao> movimentacao = repoComando.findById(id);
 		if (movimentacao.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		} else {
 			repoComando.delete(mapper.map(movimentacao, Movimentacao.class));
+			var json = objectMapper.writeValueAsString(mapper.map(movimentacao, MovimentacaoDTO.class));
+			rabbitTemplate.convertAndSend(Constants.FILA_DELETAR_MOVIMENTACAO_C, json);
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
 

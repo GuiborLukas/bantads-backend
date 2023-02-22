@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.ufpr.comando.conta.repository.ContaComandoRepository;
 import br.ufpr.consulta.conta.repository.ContaConsultaRepository;
+import br.ufpr.shared.Constants;
 import br.ufpr.shared.conta.model.Conta;
 import br.ufpr.shared.conta.model.ContaDTO;
 import br.ufpr.shared.conta.utils.CounterGerente;
@@ -30,6 +35,12 @@ import br.ufpr.shared.conta.utils.CounterGerente;
 @RestController
 @RequestMapping(value = "contas")
 public class ContaREST {
+	
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
+	
+	@Autowired
+	private ObjectMapper objectMapper;
 
 	@Autowired
 	private ContaComandoRepository repoComando;
@@ -91,7 +102,7 @@ public class ContaREST {
 		}
 	}
 	
-	@GetMapping("/melhores/gerente")
+	@GetMapping("/melhores/cntente")
 	public ResponseEntity<Long> obterMelhorGerente() {
 		List<Conta> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();
@@ -121,7 +132,7 @@ public class ContaREST {
 				.body(mapper.map(idMelhorGerente, Long.class));
 	}
 	
-	@GetMapping("/piores/gerente")
+	@GetMapping("/piores/cntente")
 	public ResponseEntity<Long> obterPiorGerente() {
 		List<Conta> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();
@@ -159,8 +170,10 @@ public class ContaREST {
 		} else {
 			try {
 				repoComando.save(mapper.map(conta, Conta.class));
-				Optional<Conta> ger = repoComando.findByCliente(conta.getCliente());
-				return ResponseEntity.status(HttpStatus.OK).body(mapper.map(ger, ContaDTO.class));
+				Optional<Conta> cnt = repoComando.findByCliente(conta.getCliente());
+				var json = objectMapper.writeValueAsString(mapper.map(cnt.get(), ContaDTO.class));
+				rabbitTemplate.convertAndSend(Constants.FILA_INSERIR_CONTA, json);
+				return ResponseEntity.status(HttpStatus.OK).body(mapper.map(cnt.get(), ContaDTO.class));
 			} catch (Exception e) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 			}
@@ -168,26 +181,30 @@ public class ContaREST {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ContaDTO> alterarConta(@PathVariable("id") Long id, @RequestBody Conta conta) {
-		Optional<Conta> ger = repoComando.findById(id);
+	public ResponseEntity<ContaDTO> alterarConta(@PathVariable("id") Long id, @RequestBody Conta conta) throws JsonProcessingException {
+		Optional<Conta> cnt = repoComando.findById(id);
 		
-		if (ger.isEmpty()) {
+		if (cnt.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		} else {
 			conta.setId(id);
 			repoComando.save(mapper.map(conta, Conta.class));
-			ger = repoComando.findById(id);
-			return ResponseEntity.status(HttpStatus.OK).body(mapper.map(ger, ContaDTO.class));
+			cnt = repoComando.findById(id);
+			var json = objectMapper.writeValueAsString(mapper.map(cnt, ContaDTO.class));
+			rabbitTemplate.convertAndSend(Constants.FILA_ALTERAR_CONTA, json);
+			return ResponseEntity.status(HttpStatus.OK).body(mapper.map(cnt, ContaDTO.class));
 		}
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity removerConta(@PathVariable("id") Long id) {
+	public ResponseEntity removerConta(@PathVariable("id") Long id) throws JsonProcessingException {
 		Optional<Conta> conta = repoComando.findById(id);
 		if (conta.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		} else {
 			repoComando.delete(mapper.map(conta, Conta.class));
+			var json = objectMapper.writeValueAsString(mapper.map(conta, ContaDTO.class));
+			rabbitTemplate.convertAndSend(Constants.FILA_DELETAR_CONTA, json);
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
 

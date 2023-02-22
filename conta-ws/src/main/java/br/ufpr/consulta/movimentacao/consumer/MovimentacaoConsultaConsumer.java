@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,6 @@ public class MovimentacaoConsultaConsumer {
 	@Autowired
 	private ModelMapper mapper;
 	
-	@RabbitHandler
 	@RabbitListener(queues=Constants.FILA_INSERIR_MOVIMENTACAO_C)
 	public void inserirMessage(String jsonMovimentacaoDTO) throws JsonMappingException, JsonProcessingException {
 		var movimentacaoDTO = objectMapper.readValue(jsonMovimentacaoDTO, MovimentacaoDTO.class);
@@ -41,6 +41,40 @@ public class MovimentacaoConsultaConsumer {
 				return;
 			} else {
 				repo.save(mapper.map(movimentacaoDTO, Movimentacao.class));
+				}
+		} catch (Exception e) {
+			return;
+		}
+	return;
+	}
+	
+	@RabbitListener(queues=Constants.FILA_ALTERAR_MOVIMENTACAO_C)
+	public void alterarMessage(String jsonMovimentacaoDTO) throws JsonMappingException, JsonProcessingException {
+		var movimentacaoDTO = objectMapper.readValue(jsonMovimentacaoDTO, MovimentacaoDTO.class);
+		try {
+			Optional<Movimentacao> mov = repo.findById(movimentacaoDTO.getId());
+			
+			if (mov.isEmpty()) {
+				return;
+			} else {
+				repo.save(mapper.map(movimentacaoDTO, Movimentacao.class));
+				}
+		} catch (Exception e) {
+			return;
+		}
+	return;
+	}
+	
+	@RabbitListener(queues=Constants.FILA_DELETAR_MOVIMENTACAO_C)
+	public void deletarMessage(String jsonMovimentacaoDTO) throws JsonMappingException, JsonProcessingException {
+		var movimentacaoDTO = objectMapper.readValue(jsonMovimentacaoDTO, MovimentacaoDTO.class);
+		try {
+			Optional<Movimentacao> mov = repo.findById(movimentacaoDTO.getId());
+			
+			if (mov.isEmpty()) {
+				return;
+			} else {
+				repo.delete(mapper.map(movimentacaoDTO, Movimentacao.class));
 				}
 		} catch (Exception e) {
 			return;
