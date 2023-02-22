@@ -1,0 +1,224 @@
+#Networks
+networks:
+  # Todos os serviços devem usar a rede BACKEND para interagirem entre si e com o BROKER
+  backend:
+    driver: bridge
+  auth_db:
+    driver: bridge
+  cliente_db:
+    driver: bridge
+  gerente_db:
+    driver: bridge
+  conta_db:
+    driver: bridge
+
+
+#Volumes para persistencia do banco de dados
+volumes:
+  mongodb_server_data:
+  cliente_pg_data:
+  gerente_pg_data:
+  conta_comm_pg_data:
+  conta_query_pg_data:
+  broker_data:
+
+
+#Containers 
+services:
+  #Broker RabbitMQ para SAGA Orquestrada
+  bantads_broker:
+    container_name: bantads_broker
+    image: rabbitmq:3.10-management
+    restart: on-failure
+    volumes:
+      - broker_data:/data:wr
+    ports:
+      - 5672:5672 
+      - 15672:15672
+      - 15692:15692
+    networks:
+      - backend
+
+  # API Gateway
+  api_gateway:
+    # image: bantads-api-gateway
+    container_name: bantads_api_gateway
+    build:
+      context: ./../api-gateway/
+      dockerfile: APIGateway.Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./../api-gateway/:/usr/src/app:rw
+    networks:
+      - backend
+
+  # MongoDB AUTH Database
+  bantads_authdb:
+    container_name: bantads_authdb
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: bantads
+    volumes:
+      - mongodb_server_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+    networks:
+      - auth_db
+
+  #Authentication Service
+  auth-ws:
+    container_name: bantads_auth-ws
+    build:
+      context: ./../auth-ws
+      dockerfile: Dockerfile
+    ports:
+      - 5000:8080
+    environment:
+      MONGO_HOST: bantads_authdb
+      RABBITMQ_HOST: bantads_broker
+    restart: on-failure
+    depends_on:
+      - bantads_authdb
+      - bantads_broker
+    networks:
+      - auth_db
+      - backend
+
+  #Cliente DB
+  cliente_db:
+    container_name: bantads_cliente_db
+    build:
+      context: .
+      dockerfile: ./Postgresql.Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      LANG: pt_BR.UTF-8
+    ports:
+      - 5432:5432
+    volumes:
+      - cliente_pg_data:/var/lib/postgresql/data
+    networks:
+      - cliente_db
+
+  #Cliente Service
+  cliente-ws:
+    container_name: bantads_cliente-ws
+    build:
+      context: ./../cliente-ws
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_HOST: cliente_db
+      RABBITMQ_HOST: bantads_broker
+    restart: on-failure
+    ports:
+      - 5001:8080
+    depends_on:
+      - cliente_db
+      - bantads_broker
+    networks:
+      - backend
+      - cliente_db
+
+  #Gerente DB
+  gerente_db:
+    container_name: bantads_gerente_db
+    build:
+      context: .
+      dockerfile: ./Postgresql.Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      LANG: pt_BR.UTF-8
+    ports:
+      - 5433:5432
+    volumes:
+      - gerente_pg_data:/var/lib/postgresql/data
+    networks:
+      - gerente_db
+
+  #Cliente Service
+  gerente-ws:
+    container_name: bantads_gerente-ws
+    build:
+      context: ./../gerente-ws
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_HOST: gerente_db
+      RABBITMQ_HOST: bantads_broker
+    restart: on-failure
+    ports:
+      - 5002:8080
+    depends_on:
+      - gerente_db
+      - bantads_broker
+    networks:
+      - backend
+      - gerente_db
+
+  #Conta DB - COMMAND
+  conta_command_db:
+    container_name: bantads_conta_command_db
+    build:
+      context: .
+      dockerfile: ./Postgresql.Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      LANG: pt_BR.UTF-8
+    ports:
+      - 5434:5432
+    volumes:
+      - conta_comm_pg_data:/var/lib/postgresql/data
+    networks:
+      - conta_db
+
+  #Conta DB - QUERY
+  conta_query_db:
+    container_name: bantads_conta_query_db
+    build:
+      context: .
+      dockerfile: ./Postgresql.Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      LANG: pt_BR.UTF-8
+    ports:
+      - 5435:5432
+    volumes:
+      - conta_query_pg_data:/var/lib/postgresql/data
+    networks:
+      - conta_db
+
+  #Conta Service
+  conta-ws:
+    container_name: bantads_conta-ws
+    build:
+      context: ./../conta-ws
+      dockerfile: Dockerfile
+    environment:
+      DB_COMMAND_HOST: conta_command_db
+      DB_QUERY_HOST: conta_query_db
+      RABBITMQ_HOST: bantads_broker
+    restart: on-failure
+    ports:
+      - 5003:8080
+    depends_on:
+      - conta_command_db
+      - conta_query_db
+      - bantads_broker
+    networks:
+      - backend
+      - conta_db
+
+  
+

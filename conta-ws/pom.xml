@@ -7,7 +7,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.8</version>
 		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
+</parent>
 	<groupId>br.ufpr</groupId>
 	<artifactId>conta-ws</artifactId>
 	<version>0.0.1-SNAPSHOT</version>

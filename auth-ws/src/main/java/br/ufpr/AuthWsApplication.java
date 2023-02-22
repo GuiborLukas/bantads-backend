@@ -12,9 +12,9 @@ public class AuthWsApplication {
 		SpringApplication.run(AuthWsApplication.class, args);
 	}
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+    @Bean
+    ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
 }
