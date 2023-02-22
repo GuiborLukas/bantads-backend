@@ -115,6 +115,7 @@ services:
       dockerfile: Dockerfile
     environment:
       DATABASE_HOST: cliente_db
+      DATABASE_PORT: 5432
       RABBITMQ_HOST: bantads_broker
     restart: on-failure
     ports:
@@ -152,6 +153,7 @@ services:
       dockerfile: Dockerfile
     environment:
       DATABASE_HOST: gerente_db
+      DATABASE_PORT: 5432
       RABBITMQ_HOST: bantads_broker
     restart: on-failure
     ports:
@@ -207,7 +209,9 @@ services:
       dockerfile: Dockerfile
     environment:
       DB_COMMAND_HOST: conta_command_db
+      DB_COMMAND_PORT: 5432
       DB_QUERY_HOST: conta_query_db
+      DB_QUERY_PORT: 5432
       RABBITMQ_HOST: bantads_broker
     restart: on-failure
     ports:

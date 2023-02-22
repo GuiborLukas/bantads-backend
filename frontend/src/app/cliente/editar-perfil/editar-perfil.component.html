@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords"
+    content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template" />
+  <meta name="description"
+    content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Bantads</title>
+</head>
+
+<body>
+  <!-- ============================================================== -->
+  <!-- Page wrapper  -->
+  <!-- ============================================================== -->
+  <div class="page-wrapper">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="page-breadcrumb bg-white">
+      <div class="row align-items-center">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+          <h4 class="page-title">Editar Perfil</h4>
+        </div>
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+      <!-- ============================================================== -->
+      <!-- Three charts -->
+      <!-- ============================================================== -->
+      <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-12">
+          <div class="well">
+            <form #formCliente="ngForm">
+              <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" class="form-control" id="nome" name="nome" minlength="2" required
+                  [(ngModel)]="cliente.nome" #nome="ngModel" />
+                <div *ngIf="nome.errors && (nome.dirty || nome.touched)" class="alert alert-danger">
+                  <div [hidden]="!nome?.errors?.['required']">
+                    Digite o seu nome.
+                  </div>
+                  <div [hidden]="!nome?.errors?.['minlength']">
+                    O nome deve conter ao menos 2 caracteres.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cpf">CPF:</label>
+                <input type="text" class="form-control" id="cpf" name="cpf" mask="CPF_CNPJ" minlength="2" required
+                  [(ngModel)]="cliente.cpf" #cpf="ngModel" disabled="" />
+              </div>
+              <div class="form-group">
+                <label for="endereco">Endereço:</label>
+                <input type="text" class="form-control" id="endereco" name="endereco" required
+                  [(ngModel)]="cliente.endereco" #endereco="ngModel" />
+                <div *ngIf="endereco.errors && (endereco.dirty || endereco.touched)" class="alert alert-danger">
+                  <div>Digite seu endereço.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="text" class="form-control" id="email" name="email" required [(ngModel)]="cliente.email"
+                  #email="ngModel" />
+                <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
+                  <div>Digite seu e-mail.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="telefone">Telefone:</label>
+                <input type="text" class="form-control" id="telefone" name="telefone" required
+                  [(ngModel)]="cliente.telefone" #telefone="ngModel" minlength="11" mask="(00)00000-0000" />
+                <div *ngIf="telefone.errors && (telefone.dirty || telefone.touched)" class="alert alert-danger">
+                  <div>Digite seu telefone.</div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="salario">Salário:</label>
+                <input type="text" class="form-control" id="salario" name="salario" required currencyMask
+                  [(ngModel)]="cliente.salario" #salario="ngModel" />
+                <div *ngIf="salario.errors && (salario.dirty || salario.touched)" class="alert alert-danger">
+                  <div>Digite seu salário.</div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <button type="button" class="btn btn-primary" (click)="atualizar($event)">
+                  <i class="fa fa-save" aria-hidden="true"></i> Atualizar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Container fluid  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer text-center">
+      2022 © Bantads UFPR
+
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Page wrapper  -->
+  <!-- ============================================================== -->
+</body>
+
+</html>

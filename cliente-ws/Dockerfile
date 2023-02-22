@@ -10,5 +10,6 @@ WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 ENV DATABASE_HOST=localhost
 ENV RABBITMQ_HOST=localhost
+ENV DATABASE_PORT=5432
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
 EXPOSE 8080
