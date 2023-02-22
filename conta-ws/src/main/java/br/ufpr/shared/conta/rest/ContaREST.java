@@ -172,7 +172,7 @@ public class ContaREST {
 				repoComando.save(mapper.map(conta, Conta.class));
 				Optional<Conta> cnt = repoComando.findByCliente(conta.getCliente());
 				var json = objectMapper.writeValueAsString(mapper.map(cnt.get(), ContaDTO.class));
-				rabbitTemplate.convertAndSend(Constants.FILA_INSERIR_CONTA, json);
+				rabbitTemplate.convertAndSend(Constants.FILA_INSERIR_CONTA_C, json);
 				return ResponseEntity.status(HttpStatus.OK).body(mapper.map(cnt.get(), ContaDTO.class));
 			} catch (Exception e) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -191,7 +191,7 @@ public class ContaREST {
 			repoComando.save(mapper.map(conta, Conta.class));
 			cnt = repoComando.findById(id);
 			var json = objectMapper.writeValueAsString(mapper.map(cnt, ContaDTO.class));
-			rabbitTemplate.convertAndSend(Constants.FILA_ALTERAR_CONTA, json);
+			rabbitTemplate.convertAndSend(Constants.FILA_ALTERAR_CONTA_C, json);
 			return ResponseEntity.status(HttpStatus.OK).body(mapper.map(cnt, ContaDTO.class));
 		}
 	}
@@ -204,7 +204,7 @@ public class ContaREST {
 		} else {
 			repoComando.delete(mapper.map(conta, Conta.class));
 			var json = objectMapper.writeValueAsString(mapper.map(conta, ContaDTO.class));
-			rabbitTemplate.convertAndSend(Constants.FILA_DELETAR_CONTA, json);
+			rabbitTemplate.convertAndSend(Constants.FILA_DELETAR_CONTA_C, json);
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
 
