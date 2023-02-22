@@ -34,10 +34,19 @@ const authResponseDecorator = function (
       const token = jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: 300,
       });
-      // userRes.status(200);
-      return userRes
-        .status(200)
-        .json({ auth: true, token: token, data: objBody });
+      let objRet = {
+        id: objBody.id,
+        nome: objBody.nome,
+        email: objBody.email,
+        senha: null,
+        perfil: objBody.perfil,
+      };
+      return (
+        userRes
+          .status(200)
+          // .json({ auth: true, token: token, data: objBody });
+          .json({ auth: true, token: token, data: objRet })
+      );
     } else {
       return userRes.status(401).json({ message: "Login inválido!" });
     }
@@ -48,7 +57,7 @@ const authResponseDecorator = function (
 };
 
 const loginServiceProxy = httpProxy(`${process.env.AUTH_SERVICE_HOST}`, {
-  proxyReqBodyDecorator: authBodyDecorator,
+  // proxyReqBodyDecorator: authBodyDecorator,
   proxyReqOptDecorator: authHeadersDecorator,
   userResDecorator: authResponseDecorator,
 });
