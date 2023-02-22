@@ -33,13 +33,10 @@ public class RabbitMQConsumer {
 	private GerenteRepository repo;
 
 	@Autowired
-	private MessageConverter messageConverter;
-	
-	@Autowired
 	private ModelMapper mapper;
 	
 	@RabbitHandler
-	@RabbitListener(queues="inserir-gerente")
+	@RabbitListener(queues=Constants.FILA_INSERIR)
 	public void inserirMessage(String jsonGerenteDTO) throws JsonMappingException, JsonProcessingException {
 		var gerenteDTO = objectMapper.readValue(jsonGerenteDTO, GerenteDTO.class);
 		System.out.println("RECEBIDA (" + gerenteDTO.getNome() + ") " + jsonGerenteDTO);
