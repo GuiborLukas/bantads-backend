@@ -28,19 +28,17 @@ public class RabbitMQConfig {
 
 	@PostConstruct
 	private void adiciona() {
-		Queue filaConsultar = this.fila(Constants.FILA_CONSULTAR);
-		Queue filaInserir = this.fila(Constants.FILA_INSERIR);
-		Queue filaAlterar = this.fila(Constants.FILA_ALTERAR);
-		Queue filaDeletar = this.fila(Constants.FILA_DELETAR);
-
 		DirectExchange exchange = this.directExchange();
 
 		this.amqpAdmin.declareExchange(exchange);
 
-		this.amqpAdmin.declareQueue(filaConsultar);
-		this.amqpAdmin.declareQueue(filaInserir);
-		this.amqpAdmin.declareQueue(filaAlterar);
-		this.amqpAdmin.declareQueue(filaDeletar);
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_SAGA));
+		
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_GERENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_GERENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_GERENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_GERENTE));
 
 	}
 }
+

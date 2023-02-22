@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.ufpr.shared.movimentacao.model.MovimentacaoD;
+import br.ufpr.commons.movimentacao.model.MovimentacaoD;
 
 public interface MovimentacaoConsultaRepository extends JpaRepository<MovimentacaoD, Long>{
 	

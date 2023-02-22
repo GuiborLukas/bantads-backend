@@ -9,37 +9,43 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tb_cliente")
+@Table(name = "tb_cliente")
 
 public class Cliente implements Serializable {
 
-private static final Long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final Long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue
-	@Column(name="id_cliente")
+	@Column(name = "id_cliente")
 	private Long id;
 
-	@Column(name="nome_cliente")
+	@Column(name = "nome_cliente")
 	private String nome;
 
-	@Column(name="email_cliente")
+	@Column(name = "email_cliente")
 	private String email;
 
-	@Column(name="cpf_cliente")
+	@Column(name = "cpf_cliente")
 	private String cpf;
 
-	@Column(name="telefone_cliente")
+	@Column(name = "telefone_cliente")
 	private String telefone;
 
-	@Column(name="salario_cliente")
+	@Column(name = "salario_cliente")
 	private double salario;
+
+	@Column(name = "endereco_cliente")
+	private Endereco endereco;
 
 	public Cliente() {
 		super();
 	}
 
-	public Cliente(Long id, String nome, String email, String cpf, String telefone, double salario) {
+	public Cliente(Long id, String nome, String email, String cpf, String telefone, double salario, Endereco endereco) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -47,6 +53,7 @@ private static final Long serialVersionUID = 1L;
 		this.cpf = cpf;
 		this.telefone = telefone;
 		this.salario = salario;
+		this.endereco = endereco;
 	}
 
 	public Long getId() {
@@ -101,15 +108,25 @@ private static final Long serialVersionUID = 1L;
 		return serialVersionUID;
 	}
 	
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
 	@Override
-    public String toString() {
-        return "ClienteDTO [" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", salario='" + salario + '\'' +
-                ']';
-    }
+	public String toString() {
+	    return "Cliente[" +
+	            "id=" + id +
+	            ", nome='" + nome + '\'' +
+	            ", email='" + email + '\'' +
+	            ", cpf='" + cpf + '\'' +
+	            ", telefone='" + telefone + '\'' +
+	            ", salario=" + salario +
+	            ", endereco=" + endereco +
+	            ']';
+	}
+
 }

@@ -2,28 +2,31 @@ package br.ufpr.model;
 
 import java.io.Serializable;
 
-public class Endereco implements Serializable{
+public class Endereco implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String tipo;
 	private String logradouro;
 	private String numero;
 	private String complemento;
-	private String bairro;
 	private String cep;
 	private String cidade;
 	private String estado;
-
+	
 	public Endereco() {
 		super();
 	}
 
-	public Endereco(String tipo, String logradouro, String numero, String complemento, String bairro, String cep, String cidade,
+	public Endereco(String tipo, String logradouro, String numero, String complemento, String cep, String cidade,
 			String estado) {
 		super();
 		this.tipo = tipo;
 		this.logradouro = logradouro;
 		this.numero = numero;
 		this.complemento = complemento;
-		this.bairro = bairro;
 		this.cep = cep;
 		this.cidade = cidade;
 		this.estado = estado;
@@ -61,14 +64,6 @@ public class Endereco implements Serializable{
 		this.complemento = complemento;
 	}
 
-	public String getBairro() {
-		return bairro;
-	}
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-
 	public String getCep() {
 		return cep;
 	}
@@ -91,5 +86,18 @@ public class Endereco implements Serializable{
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+	
+	@Override
+	public String toString() {
+	    return "EnderecoDTO [" +
+	            "tipo='" + tipo + '\'' +
+	            ", logradouro='" + logradouro + '\'' +
+	            ", numero='" + numero + '\'' +
+	            ", complemento='" + complemento + '\'' +
+	            ", cep='" + cep + '\'' +
+	            ", cidade='" + cidade + '\'' +
+	            ", estado='" + estado + '\'' +
+	            ']';
 	}
 }

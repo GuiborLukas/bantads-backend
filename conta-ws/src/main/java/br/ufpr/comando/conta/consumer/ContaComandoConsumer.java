@@ -15,9 +15,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.ufpr.comando.conta.repository.ContaComandoRepository;
-import br.ufpr.shared.Constants;
-import br.ufpr.shared.conta.model.Conta;
-import br.ufpr.shared.conta.model.ContaDTO;
+import br.ufpr.commons.Constants;
+import br.ufpr.commons.conta.model.Conta;
+import br.ufpr.commons.conta.model.ContaDTO;
 
 @Component
 public class ContaComandoConsumer {

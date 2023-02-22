@@ -12,11 +12,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.ufpr.commons.Constants;
+import br.ufpr.commons.movimentacao.model.Movimentacao;
+import br.ufpr.commons.movimentacao.model.MovimentacaoD;
+import br.ufpr.commons.movimentacao.model.MovimentacaoDTO;
 import br.ufpr.consulta.movimentacao.repository.MovimentacaoConsultaRepository;
-import br.ufpr.shared.Constants;
-import br.ufpr.shared.movimentacao.model.Movimentacao;
-import br.ufpr.shared.movimentacao.model.MovimentacaoD;
-import br.ufpr.shared.movimentacao.model.MovimentacaoDTO;
 
 @Component
 public class MovimentacaoConsultaConsumer {
