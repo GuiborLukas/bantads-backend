@@ -45,7 +45,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     ClienteService,
     GerenteService,
     { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerService, multi: true }
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerService, multi: true }
   ],
   bootstrap: [AppComponent]
 })
