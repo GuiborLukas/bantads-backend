@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
             if (isAuth) {
               this.loginService.userToken = token!;
               this.loginService.usuarioLogado = new Usuario(usu!.nome, usu!.email, usu!.perfil, usu!.id);
-
               this.loading = false;
               this.router.navigate([`${usu!.perfil?.toLowerCase()}`]);
 

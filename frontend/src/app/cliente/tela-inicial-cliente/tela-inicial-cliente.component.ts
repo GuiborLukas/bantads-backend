@@ -21,13 +21,13 @@ export class TelaInicialClienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.clienteService.buscarClientePorUsuario(this.loginService.usuarioLogado).subscribe(
-      (clientes: Cliente[]) => {
-        if ((clientes != null) && (clientes.length) > 0) {
-          this.clienteService.clienteLogado = clientes[0];
-          this.clienteService.buscarContaPorCliente(clientes[0]).subscribe(
-            (contas: Conta[]) => {
-              if ((contas != null) && (contas.length > 0)) {
-                this.conta = contas[0];
+      (clientes: Cliente) => {
+        if (clientes != null) {
+          this.clienteService.clienteLogado = clientes;
+          this.clienteService.buscarContaPorCliente(clientes).subscribe(
+            (contas: Conta) => {
+              if (contas != null) {
+                this.conta = contas;
               }
             }
           )

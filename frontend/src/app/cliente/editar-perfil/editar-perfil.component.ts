@@ -19,8 +19,6 @@ export class EditarPerfilComponent implements OnInit {
 
   constructor(
     private clienteService: ClienteService,
-    private loginService: LoginService,
-    private adminService: AdminService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -30,34 +28,14 @@ export class EditarPerfilComponent implements OnInit {
   atualizar($event: any): void {
     $event.preventDefault();
     if (this.formCliente.form.valid) {
-      let limite: number = this.cliente.salario! / 2;
-      this.clienteService.buscarContaPorCliente(this.cliente).subscribe(
-        (contas: Conta[]) => {
-          if (contas != null) {
-            let conta = contas[0];
-            let saldoNegativo = (conta.saldo! < 0) ? conta.saldo! * (-1) : 0;
-
-            conta.limite = (saldoNegativo > 0 && limite < saldoNegativo) ? saldoNegativo : limite;
-
-            this.clienteService.atualizarConta(conta).subscribe(
-              (conta: Conta) => {
-                this.clienteService.atualizarCliente(this.cliente).subscribe(
-                  (cliente: Cliente) => {
-                    if (cliente != null) {
-                      let usu: Usuario = cliente.usuario!;
-                      usu!.email = cliente.email;
-                      this.adminService.alterarUsuario(usu).subscribe();
-                      alert('Cliente atualizado com sucesso');
-                      this.router.navigate(['/cliente']);
-                    }
-                  }
-                );
-              }
-            )
+      this.clienteService.atualizarCliente(this.cliente).subscribe(
+        (cliente: Cliente) => {
+          if (cliente != null) {
+            alert('Cliente atualizado com sucesso');
+            this.router.navigate(['/cliente']);
           }
         }
       );
-
     }
   }
 }

@@ -20,22 +20,9 @@ export class ConsultarExtratoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.clienteService.buscarContaPorCliente(this.clienteService.clienteLogado).subscribe(
-      (contas: Conta[]) => {
-        if (contas != null) {
-          this.conta = contas[0];
-
-          this.clienteService.buscarTodasTransacoes().subscribe(
-            (transacoes: Transacao[]) => {
-              if (transacoes != null) {
-
-                this.extrato = transacoes.filter((transacao) => (
-                  (transacao.contaOrigem?.numero == this.conta.numero) ||
-                  (transacao.contaDestino?.numero == this.conta.numero)));
-              }
-            }
-          )
-        }
+    this.clienteService.buscarTodasTransacoes().subscribe(
+      (transacoes: Transacao[]) => {
+        this.extrato = transacoes;
       }
     );
   }
