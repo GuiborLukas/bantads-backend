@@ -7,9 +7,8 @@ RUN mvn clean install -DskipTests
 
 FROM adoptopenjdk/openjdk11:latest
 WORKDIR /app
-VOLUME /tmp
-ENV MONGO_HOST=localhost
-ENV RABBITMQ_HOST=localhost
 COPY --from=builder /app/target/*.jar app.jar
+ENV DATABASE_HOST=localhost
+ENV RABBITMQ_HOST=localhost
 ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
 EXPOSE 8080
