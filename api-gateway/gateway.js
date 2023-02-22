@@ -13,6 +13,7 @@ const corsOptions = { credentials: true, origin: process.env.URL || "*" };
 
 const app = express();
 
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -20,7 +21,6 @@ app.use(bodyParser.json());
 app.use(routes);
 
 
-app.use(cors(corsOptions));
 app.use(helmet());
 app.use(cookieParser());
 
