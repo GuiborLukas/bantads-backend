@@ -68,7 +68,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./../api-gateway/:/usr/src/app:rw
+      - ./../api-gateway/:/usr/src/app
     networks:
       - backend
       # - frontend

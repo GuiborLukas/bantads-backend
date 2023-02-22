@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: any) => {
-      this.message = params['error'];
+      this.message = params['message'];
     });
   }
 
@@ -41,7 +41,8 @@ export class LoginComponent implements OnInit {
             let { auth: isAuth, token, usuario: usu } = loginResponse;
             if (isAuth) {
               this.loginService.userToken = token!;
-              this.loginService.usuarioLogado = usu!;
+              this.loginService.usuarioLogado = new Usuario(usu!.nome, usu!.email, undefined, usu!.perfil);
+
               this.loading = false;
               this.router.navigate([`${usu!.perfil?.toLowerCase()}`]);
 
