@@ -11,7 +11,7 @@ const LS_CHAVE_TOKEN: string = 'usuarioLogadoToken';
   providedIn: 'root',
 })
 export class LoginService {
-  BASE_URL: string = env.BASE_URL + "login/";
+  BASE_URL: string = env.BASE_URL + "login";
 
   constructor(
     private httpClient: HttpClient

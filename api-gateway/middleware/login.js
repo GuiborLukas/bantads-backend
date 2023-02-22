@@ -3,9 +3,10 @@ const httpProxy = require("express-http-proxy");
 
 const authBodyDecorator = function (bodyContent, srcReq) {
   try {
+    console.log(bodyContent);
     let retBody = {};
-    retBody.email = bodyContent.user;
-    retBody.senha = bodyContent.password;
+    retBody.email = bodyContent.email;
+    retBody.senha = bodyContent.senha;
     bodyContent = retBody;
   } catch (e) {
     console.log(`ERRO! ${e}`);
@@ -47,7 +48,7 @@ const authResponseDecorator = function (
 };
 
 const loginServiceProxy = httpProxy(`${process.env.AUTH_SERVICE_HOST}`, {
-  proxyReqBodyDecorator: authBodyDecorator,
+  // proxyReqBodyDecorator: authBodyDecorator,
   proxyReqOptDecorator: authHeadersDecorator,
   userResDecorator: authResponseDecorator,
 });
