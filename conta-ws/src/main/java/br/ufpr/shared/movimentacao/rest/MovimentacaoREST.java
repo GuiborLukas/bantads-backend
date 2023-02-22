@@ -27,6 +27,7 @@ import br.ufpr.comando.movimentacao.repository.MovimentacaoComandoRepository;
 import br.ufpr.consulta.movimentacao.repository.MovimentacaoConsultaRepository;
 import br.ufpr.shared.Constants;
 import br.ufpr.shared.movimentacao.model.Movimentacao;
+import br.ufpr.shared.movimentacao.model.MovimentacaoD;
 import br.ufpr.shared.movimentacao.model.MovimentacaoDTO;
 
 @CrossOrigin
@@ -51,7 +52,7 @@ public class MovimentacaoREST {
 	
 	@GetMapping
 	public ResponseEntity<List<MovimentacaoDTO>> obterTodasMovimentacoes() {
-		List<Movimentacao> lista = repoConsulta.findAll();
+		List<MovimentacaoD> lista = repoConsulta.findAll();
 
 		if (lista.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -63,14 +64,14 @@ public class MovimentacaoREST {
 	@GetMapping("/cliente/{idCliente}")
 	public ResponseEntity<List<MovimentacaoDTO>> obterTodasMovimentacoesDoCliente(@PathVariable("idCliente") Long idCliente) {
 		
-		List<Movimentacao> lista = repoConsulta.findAll();
+		List<MovimentacaoD> lista = repoConsulta.findAll();
 
 		if (lista.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		}
 		
-		List<Movimentacao> movCliente = new ArrayList<>();
-		for(Movimentacao m: lista) {
+		List<MovimentacaoD> movCliente = new ArrayList<>();
+		for(MovimentacaoD m: lista) {
 			if(m.getClienteOrigem().equals(idCliente) || m.getClienteDestino().equals(idCliente)) {
 				movCliente.add(m);
 			}
@@ -82,7 +83,7 @@ public class MovimentacaoREST {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<MovimentacaoDTO> obterMovimentacaoPeloId(@PathVariable("id") Long id) {
-		Optional<Movimentacao> movimentacao = repoConsulta.findById(id);
+		Optional<MovimentacaoD> movimentacao = repoConsulta.findById(id);
 		if (movimentacao.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		} else {

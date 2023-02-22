@@ -28,6 +28,7 @@ import br.ufpr.comando.conta.repository.ContaComandoRepository;
 import br.ufpr.consulta.conta.repository.ContaConsultaRepository;
 import br.ufpr.shared.Constants;
 import br.ufpr.shared.conta.model.Conta;
+import br.ufpr.shared.conta.model.ContaD;
 import br.ufpr.shared.conta.model.ContaDTO;
 import br.ufpr.shared.conta.utils.CounterGerente;
 
@@ -53,7 +54,7 @@ public class ContaREST {
 
 	@GetMapping
 	public ResponseEntity<List<ContaDTO>> obterTodasContas() {
-		List<Conta> lista = repoConsulta.findAll();
+		List<ContaD> lista = repoConsulta.findAll();
 
 		if (lista.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
@@ -64,7 +65,7 @@ public class ContaREST {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ContaDTO> obterContaPeloId(@PathVariable("id") Long id) {
-		Optional<Conta> conta = repoConsulta.findById(id);
+		Optional<ContaD> conta = repoConsulta.findById(id);
 		if (conta.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		} else {
@@ -74,7 +75,7 @@ public class ContaREST {
 
 	@GetMapping("/cliente/{idCliente}")
 	public ResponseEntity<ContaDTO> obterContaPeloIdCliente(@PathVariable("idCliente") Long idCliente) {
-		Optional<Conta> conta = repoConsulta.findByCliente(idCliente);
+		Optional<ContaD> conta = repoConsulta.findByCliente(idCliente);
 		if (conta.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		} else {
@@ -84,7 +85,7 @@ public class ContaREST {
 	
 	@GetMapping("/melhores/contas")
 	public ResponseEntity<List<Long>> obterMelhoresContas() {
-		List<Conta> contas = repoConsulta.findAll();
+		List<ContaD> contas = repoConsulta.findAll();
 		if (contas.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		} else {
@@ -92,7 +93,7 @@ public class ContaREST {
 			Collections.reverse(contas);
 			List<Long> idsMelhores = new ArrayList<>();
 			int count = 0;
-			for(Conta c: contas) {
+			for(ContaD c: contas) {
 				idsMelhores.add(c.getCliente());
 				count++;
 				if(count == 5) 
@@ -104,9 +105,9 @@ public class ContaREST {
 	
 	@GetMapping("/melhores/cntente")
 	public ResponseEntity<Long> obterMelhorGerente() {
-		List<Conta> contas = repoConsulta.findAll();
+		List<ContaD> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();
-		for (Conta p : contas){
+		for (ContaD p : contas){
 				boolean found = false;
 				if(lista.isEmpty()) {
 					lista.add(new CounterGerente(p.getGerente(), 1));
@@ -134,9 +135,9 @@ public class ContaREST {
 	
 	@GetMapping("/piores/cntente")
 	public ResponseEntity<Long> obterPiorGerente() {
-		List<Conta> contas = repoConsulta.findAll();
+		List<ContaD> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();
-		for (Conta p : contas){
+		for (ContaD p : contas){
 				boolean found = false;
 				if(lista.isEmpty()) {
 					lista.add(new CounterGerente(p.getGerente(), 1));

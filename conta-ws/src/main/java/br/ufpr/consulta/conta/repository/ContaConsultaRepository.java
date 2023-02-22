@@ -4,13 +4,13 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.ufpr.shared.conta.model.Conta;
+import br.ufpr.shared.conta.model.ContaD;
 
-public interface ContaConsultaRepository extends JpaRepository<Conta, Long>{
+public interface ContaConsultaRepository extends JpaRepository<ContaD, Long>{
 	
-	Optional<Conta> findById(Long id);
+	Optional<ContaD> findById(Long id);
 
-	Optional<Conta> findByCliente(Long cliente);
+	Optional<ContaD> findByCliente(Long cliente);
 	
 }
 
