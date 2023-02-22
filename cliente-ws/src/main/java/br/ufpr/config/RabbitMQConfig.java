@@ -11,7 +11,7 @@ import br.ufpr.commons.Constants;
 
 @Configuration
 public class RabbitMQConfig {
-	
+
 	private AmqpAdmin amqpAdmin;
 
 	public RabbitMQConfig(AmqpAdmin amqpAdmin) {
@@ -28,20 +28,17 @@ public class RabbitMQConfig {
 
 	@PostConstruct
 	private void adiciona() {
-		Queue filaConsultar = this.fila(Constants.FILA_CONSULTAR);
-		Queue filaInserir = this.fila(Constants.FILA_INSERIR);
-		Queue filaAlterar = this.fila(Constants.FILA_ALTERAR);
-		Queue filaDeletar = this.fila(Constants.FILA_DELETAR);
-
 		DirectExchange exchange = this.directExchange();
 
 		this.amqpAdmin.declareExchange(exchange);
 
-		this.amqpAdmin.declareQueue(filaConsultar);
-		this.amqpAdmin.declareQueue(filaInserir);
-		this.amqpAdmin.declareQueue(filaAlterar);
-		this.amqpAdmin.declareQueue(filaDeletar);
-
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_SAGA));
+		
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_CLIENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_CLIENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_CLIENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_CLIENTE));
+		
 	}
-
 }
+

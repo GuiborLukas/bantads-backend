@@ -8,5 +8,6 @@ import br.ufpr.model.Cliente;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 
-	Optional <Cliente> findByCpf(String cpf);
+	Optional<Cliente> findByCpf(String cpf);
+	
 }

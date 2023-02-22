@@ -32,53 +32,45 @@ public class ClienteREST {
 	@Autowired
 	private ModelMapper mapper;
 
-		@GetMapping("/clientes")
+		@GetMapping
 		public ResponseEntity<List<ClienteDTO>> obterTodosClientes() {
 
-			try {
-				List<Cliente> lista = repo.findAll();
-				if (lista.isEmpty()) {
-					// Se nao existir nenhum, retorna HTTP 404 Not Found
-					return ResponseEntity.notFound().build();
-				}
-				// Converte lista de Entity para lista DTO
+			List<Cliente> lista = repo.findAll();
 
-				List<ClienteDTO> DTOlist = lista.stream().map(usu -> mapper.map(usu, ClienteDTO.class))
-						.collect(Collectors.toList());
-
-				return ResponseEntity.ok(DTOlist);
-
-			}catch(Exception e) {
-				System.err.println("Erro buscar todos clientes: " + e.toString());
-				return ResponseEntity.internalServerError().body(null);
+			if(lista.isEmpty()) {
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 			}
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(lista.stream().map(e -> mapper.map(e, ClienteDTO.class)).collect(Collectors.toList()));
+
+			
 		}
 		
-		@GetMapping("/clientes/{id}")
+		@GetMapping("/{id}")
 		public ResponseEntity<ClienteDTO> buscaClientePorId(@PathVariable("id") Long id) {
 			try {
 				// Busca o usuario pelo id
 				Optional<Cliente> usuOpt = repo.findById(id);
 				if (usuOpt.isPresent()) {
 					// Se ele existe, retorna HTTP 200 - OK e o usuario
-					return ResponseEntity.ok(mapper.map(usuOpt.get(), ClienteDTO.class));
+					return ResponseEntity.status(HttpStatus.OK).body(mapper.map(usuOpt.get(), ClienteDTO.class));
 				} else {
 					// Caso contrario, retorna HTTP 404 = Not Found
-					return ResponseEntity.notFound().build();
+					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 				}
 
 			} catch (Exception e) {
 				System.err.println("Erro buscar usuario por ID:" + e.toString());
-				return ResponseEntity.internalServerError().body(null);
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 			}
 		}
 		
-		@PostMapping("/clientes")
-		public ResponseEntity<ClienteDTO> insereCliente(@RequestBody Cliente cliente) {
+		@PostMapping
+		public ResponseEntity<ClienteDTO> insereCliente(@RequestBody ClienteDTO cliente) {
 			
 			try {
-			// Se cliente ja existir, retorna HTTP 409 - Conflict
-			if (repo.findByCpf(cliente.getCpf()) != null) {
+			Optional<Cliente> clienteBD = repo.findByCpf(cliente.getCpf());
+			if (clienteBD.isPresent()) {
 				return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 			}else {
 				repo.save(mapper.map(cliente, Cliente.class));
@@ -88,12 +80,12 @@ public class ClienteREST {
 			}catch(Exception e) {
 				System.err.println("Erro inserir cliente:" + e.toString());
 				// Se deu erro ao salvar, retorna HTTP 500 - Internal server error
-				return ResponseEntity.internalServerError().body(null);
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 			}
 		}
 		
-		@PutMapping("/clientes/{id}")
-		public ResponseEntity<ClienteDTO> alterarCliente(@PathVariable("id") long id, @RequestBody Cliente cliente) {
+		@PutMapping("/{id}")
+		public ResponseEntity<ClienteDTO> alterarCliente(@PathVariable("id") long id, @RequestBody ClienteDTO cliente) {
 			
 			try{
 				Optional<Cliente> cli = repo.findById(id);
@@ -109,11 +101,11 @@ public class ClienteREST {
 			}catch(Exception e) {
 				System.err.println("Erro alterar cliente:" + e.toString());
 				// Se deu erro ao salvar, retorna HTTP 500 - Internal server error
-				return ResponseEntity.internalServerError().body(null);
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 			}
 		}
 		
-		@DeleteMapping("/clientes/{id}")
+		@DeleteMapping("/{id}")
 		public ResponseEntity removerCliente(@PathVariable("id") long id) {
 
 			try {
@@ -127,7 +119,7 @@ public class ClienteREST {
 			}catch(Exception e ) {
 				System.err.println("Erro remover cliente:" + e.toString());
 				// Se deu erro ao salvar, retorna HTTP 500 - Internal server error
-				return ResponseEntity.internalServerError().body(null);
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 			}
 		}
 }

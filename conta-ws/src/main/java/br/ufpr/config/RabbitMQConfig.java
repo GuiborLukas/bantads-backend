@@ -7,7 +7,7 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Configuration;
 
-import br.ufpr.shared.Constants;
+import br.ufpr.commons.Constants;
 
 @Configuration
 public class RabbitMQConfig {
@@ -36,14 +36,17 @@ public class RabbitMQConfig {
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_CONTA));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_CONTA));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_CONTA));
+		
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_MOVIMENTACAO));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_MOVIMENTACAO));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_MOVIMENTACAO));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_MOVIMENTACAO));
+		
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_CONTA_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_CONTA_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_CONTA_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_CONTA_C));
+		
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_MOVIMENTACAO_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_MOVIMENTACAO_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_MOVIMENTACAO_C));

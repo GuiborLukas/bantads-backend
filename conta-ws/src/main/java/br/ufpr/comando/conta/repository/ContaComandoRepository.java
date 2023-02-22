@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.ufpr.shared.conta.model.Conta;
+import br.ufpr.commons.conta.model.Conta;
 
 public interface ContaComandoRepository extends JpaRepository<Conta, Long>{
 	

@@ -13,10 +13,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.ufpr.commons.Constants;
+import br.ufpr.commons.conta.model.ContaD;
+import br.ufpr.commons.conta.model.ContaDTO;
 import br.ufpr.consulta.conta.repository.ContaConsultaRepository;
-import br.ufpr.shared.Constants;
-import br.ufpr.shared.conta.model.Conta;
-import br.ufpr.shared.conta.model.ContaDTO;
 
 @Component
 public class ContaConsultaConsumer {
@@ -35,13 +35,13 @@ public class ContaConsultaConsumer {
 	public void inserirMessage(String jsonContaDTO) throws JsonMappingException, JsonProcessingException {
 		var contaDTO = objectMapper.readValue(jsonContaDTO, ContaDTO.class);
 		try {
-			Optional<Conta> conta = repo.findByCliente(contaDTO.getCliente());
+			Optional<ContaD> conta = repo.findByCliente(contaDTO.getCliente());
 			System.out.println("Inserindo na conta consulta");
 			if (conta.isPresent()) {
 				return;
 			} else {
-				repo.save(mapper.map(contaDTO, Conta.class));
-				Optional<Conta> cnt = repo.findByCliente(contaDTO.getCliente());
+				repo.save(mapper.map(contaDTO, ContaD.class));
+				Optional<ContaD> cnt = repo.findByCliente(contaDTO.getCliente());
 				if (cnt.isPresent()) {
 					contaDTO = mapper.map(cnt.get(), ContaDTO.class);
 					System.out.println("Inserido na conta consulta");
@@ -59,12 +59,12 @@ public class ContaConsultaConsumer {
 	public void alterarMessage(String jsonContaDTO) throws JsonMappingException, JsonProcessingException {
 		var contaDTO = objectMapper.readValue(jsonContaDTO, ContaDTO.class);
 		try {
-			Optional<Conta> conta = repo.findById(contaDTO.getId());
+			Optional<ContaD> conta = repo.findById(contaDTO.getId());
 			System.out.println("Alterando na conta consulta");
 			if (conta.isEmpty()) {
 				return;
 			} else {
-				repo.save(mapper.map(contaDTO, Conta.class));
+				repo.save(mapper.map(contaDTO, ContaD.class));
 				System.out.println("Alterado na conta consulta");
 				}
 		} catch (Exception e) {
@@ -78,12 +78,12 @@ public class ContaConsultaConsumer {
 	public void deletarMessage(String jsonContaDTO) throws JsonMappingException, JsonProcessingException {
 		var contaDTO = objectMapper.readValue(jsonContaDTO, ContaDTO.class);
 		try {
-			Optional<Conta> cnt = repo.findById(contaDTO.getId());
+			Optional<ContaD> cnt = repo.findById(contaDTO.getId());
 			System.out.println("Deletando na conta consulta");
 			if (cnt.isEmpty()) {
 				return;
 			} else {
-				repo.delete(mapper.map(contaDTO, Conta.class));
+				repo.delete(mapper.map(contaDTO, ContaD.class));
 				System.out.println("Deletado na conta consulta");
 				}
 		} catch (Exception e) {
@@ -91,4 +91,5 @@ public class ContaConsultaConsumer {
 		}
 	return;
 	}
+	
 }

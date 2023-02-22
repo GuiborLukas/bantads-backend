@@ -50,7 +50,7 @@ public class ComandoJpaConfig {
 			@Qualifier("comandoDataSource") DataSource dataSource) {
 		final LocalContainerEntityManagerFactoryBean entityManager = new LocalContainerEntityManagerFactoryBean();
 		entityManager.setDataSource(dataSource);
-		entityManager.setPackagesToScan("br.ufpr.shared.conta.model", "br.ufpr.shared.movimentacao.model");
+		entityManager.setPackagesToScan("br.ufpr.commons.conta.model", "br.ufpr.commons.movimentacao.model");
 		final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		entityManager.setJpaVendorAdapter(vendorAdapter);
 		final HashMap<String, Object> properties = new HashMap<String, Object>();
