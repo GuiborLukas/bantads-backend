@@ -1,13 +1,13 @@
 const httpProxy = require("express-http-proxy");
 
-const autoCadastroServiceProxy = httpProxy(process.env.SAGA_SERVICE_HOST);
-const alteracaoClienteServiceProxy = httpProxy(process.env.SAGA_SERVICE_HOST);
-const remocaoGerenteServiceProxy = httpProxy(process.env.SAGA_SERVICE_HOST);
-const insercaoGerenteServiceProxy = httpProxy(process.env.SAGA_SERVICE_HOST);
+const autoCadastroSAGAProxy = httpProxy(process.env.SAGA_SERVICE_HOST, {});
+const alteracaoClienteSAGAProxy = httpProxy(process.env.SAGA_SERVICE_HOST);
+const remocaoGerenteSAGAProxy = httpProxy(process.env.SAGA_SERVICE_HOST);
+const insercaoGerenteSAGAProxy = httpProxy(process.env.SAGA_SERVICE_HOST);
 
 module.exports = {
-  autoCadastroServiceProxy,
-  alteracaoClienteServiceProxy,
-  remocaoGerenteServiceProxy,
-  insercaoGerenteServiceProxy,
+  autoCadastroSAGAProxy,
+  insercaoGerenteSAGAProxy,
+  remocaoGerenteSAGAProxy,
+  alteracaoClienteSAGAProxy,
 };
