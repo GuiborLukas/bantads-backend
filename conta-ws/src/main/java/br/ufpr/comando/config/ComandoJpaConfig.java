@@ -54,14 +54,13 @@ public class ComandoJpaConfig {
 		final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		entityManager.setJpaVendorAdapter(vendorAdapter);
 		final HashMap<String, Object> properties = new HashMap<String, Object>();
-		properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
-		properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
-		properties.put("hibernate.ddl-auto", env.getProperty("hibernate.ddl-auto"));
-		properties.put("generate-ddl", env.getProperty("generate-ddl"));
-		properties.put("show-sql", env.getProperty("show-sql"));
-		properties.put("database-platform", env.getProperty("database-platform"));
-		properties.put("properties.hibernate.dialect", env.getProperty("properties.hibernate.dialect"));
-		properties.put("properties.hibernate.format_sql", env.getProperty("properties.hibernate.format_sql"));
+		properties.put("hibernate.hbm2ddl.auto", "update");
+		properties.put("hibernate.ddl-auto", "update");
+		properties.put("generate-ddl", "true");
+		properties.put("show-sql", "true");
+		properties.put("database-platform", "org.hibernate.dialect.PostgreSQLDialect");
+		properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		properties.put("properties.hibernate.format_sql", "true");
 		entityManager.setJpaPropertyMap(properties);
 		return entityManager;
 	}
