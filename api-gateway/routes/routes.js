@@ -83,6 +83,6 @@ router.get("/gerentes", validaJWT, listaGerentesProxy);
 router.put("/gerente/:id", validaJWT, atualizaGerenteProxy);
 
 //Listagem de todos os clientes
-router.get("/clientes", validaJWT, relatorioClientesAdminProxy);
+router.get("/clientes", validaJWT, relatorioClientesProxy);
 
 module.exports = router;
