@@ -1,5 +1,7 @@
 #Networks
 networks:
+  frontend:
+    driver: bridge
   # Todos os serviços devem usar a rede BACKEND para interagirem entre si e com o BROKER
   backend:
     driver: bridge
@@ -25,6 +27,22 @@ volumes:
 
 #Containers 
 services:
+  #Angular Frontend
+  bantads_frontend:
+    container_name: bantads_frontend
+    build:
+      context: ./../frontend/
+      dockerfile: Dockerfile
+    volumes:
+      - ./../frontend/:/app:rw
+    ports:
+      - 4200:4200
+      - 49153:49153
+    networks:
+      - frontend
+    depends_on:
+      - api_gateway
+
   #Broker RabbitMQ para SAGA Orquestrada
   bantads_broker:
     container_name: bantads_broker
@@ -52,6 +70,7 @@ services:
       - ./../api-gateway/:/usr/src/app:rw
     networks:
       - backend
+      - frontend
 
   # MongoDB AUTH Database
   bantads_authdb:
@@ -115,6 +134,7 @@ services:
       dockerfile: Dockerfile
     environment:
       DATABASE_HOST: cliente_db
+      DATABASE_PORT: 5432
       RABBITMQ_HOST: bantads_broker
     restart: on-failure
     ports:
@@ -152,6 +172,7 @@ services:
       dockerfile: Dockerfile
     environment:
       DATABASE_HOST: gerente_db
+      DATABASE_PORT: 5432
       RABBITMQ_HOST: bantads_broker
     restart: on-failure
     ports:
@@ -207,7 +228,9 @@ services:
       dockerfile: Dockerfile
     environment:
       DB_COMMAND_HOST: conta_command_db
+      DB_COMMAND_PORT: 5432
       DB_QUERY_HOST: conta_query_db
+      DB_QUERY_PORT: 5432
       RABBITMQ_HOST: bantads_broker
     restart: on-failure
     ports:

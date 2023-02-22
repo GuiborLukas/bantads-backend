@@ -1,0 +1,62 @@
+<div class="page-wrapper">
+  <!-- ============================================================== -->
+  <!-- Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <div class="page-breadcrumb bg-white">
+    <div class="row align-items-center">
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <h4 class="page-title">Login</h4>
+      </div>
+    </div>
+    <!-- /.col-lg-12 -->
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Bread crumb and right sidebar toggle -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- Container fluid  -->
+  <!-- ============================================================== -->
+  <div class="container-fluid">
+    <!-- ============================================================== -->
+    <!-- RECENT SALES -->
+    <!-- ============================================================== -->
+    <div class="well">
+      <div *ngIf="message" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <span> {{ message }} </span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+          (click)="message=''; $event.preventDefault()">
+        </button>
+      </div>
+      <div class="well">
+        <form #formLogin="ngForm">
+          <div class="form-group">
+            <label for="usuario">E-mail:</label>
+            <input type="text" class="form-control" id="usuario" name="usuario" [(ngModel)]="login.email"
+              #usuario="ngModel" required />
+            <div *ngIf="usuario.errors && (usuario.dirty || usuario.touched)" class="alert alert-danger">
+              <div [hidden]="!usuario?.errors?.['required']">
+                Digite o usuário
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="senha">Senha:</label>
+            <input type="password" class="form-control" id="senha" name="senha" [(ngModel)]="login.senha"
+              #senha="ngModel" required />
+            <div *ngIf="senha.errors && (senha.dirty || senha.touched)" class="alert alert-danger">
+              <div [hidden]="!senha?.errors?.['required']">Digite a senha.</div>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-primary" style="margin-right: 20px;" (click)="logar()"
+            [disabled]="!formLogin.form.valid">
+            <i class="fa fa-save" aria-hidden="true"></i> Logar
+          </button>
+          <a class="btn btn-secondary" [routerLink]="['/autocadastro']">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Registrar
+          </a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

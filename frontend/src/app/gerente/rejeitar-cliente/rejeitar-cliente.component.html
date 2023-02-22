@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="keywords"
+    content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Ample lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Ample admin lite dashboard bootstrap 5 dashboard template" />
+  <meta name="description"
+    content="Ample Admin Lite is powerful and clean admin dashboard template, inpired from Bootstrap Framework" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Bantads</title>
+</head>
+
+<body>
+  <!-- ============================================================== -->
+  <!-- Page wrapper  -->
+  <!-- ============================================================== -->
+  <div class="page-wrapper">
+    <!-- ============================================================== -->
+    <!-- Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <div class="page-breadcrumb bg-white">
+      <div class="row align-items-center">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+          <h4 class="page-title">Rejeitar Cliente</h4>
+        </div>
+      </div>
+      <!-- /.col-lg-12 -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Bread crumb and right sidebar toggle -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Container fluid  -->
+    <!-- ============================================================== -->
+    <div class="container-fluid">
+      <!-- ============================================================== -->
+      <!-- Listar clientes -->
+      <!-- ============================================================== -->
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            Informações do cliente:
+          </h5>
+          <p class="card-text">Nome: {{cliente.nome}}</p>
+          <p class="card-text">CPF: {{cliente.cpf! | mask: "CPF_CNPJ"}}</p>
+          <p class="card-text">E-mail: {{cliente.email}}</p>
+          <p class="card-text">Salário: {{cliente.salario | currency:'BRL'}}</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">
+            Deseja recusar a solicitação de criação de conta deste cliente?
+          </h5>
+          <div class="form-group">
+            <label for="descricao">Escreva o motivo da recusa</label>
+            <textarea class="form-control" id="descricao" rows="4"></textarea>
+          </div>
+          <p class="card-text">
+            Ao confirmar, um e-mail será enviado ao cliente.<br>
+            Esta ação não poderá ser desfeita.
+          </p>
+          <button type="button" class="btn btn-primary" style="margin-right: 10px" (click)="rejeitarCliente()">
+            <i class="fa fa-save" aria-hidden="true"></i> Confirmar
+          </button>
+          <a class="btn btn-secondary" [routerLink]="['/gerente']">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> Voltar
+          </a>
+        </div>
+      </div>
+
+      <!-- ============================================================== -->
+      <!-- End Container fluid  -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer text-center">
+      2022 © Bantads UFPR
+      
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Page wrapper  -->
+  <!-- ============================================================== -->
+</body>
+
+</html>
