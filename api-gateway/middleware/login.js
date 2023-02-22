@@ -3,10 +3,11 @@ const httpProxy = require("express-http-proxy");
 
 const authBodyDecorator = function (bodyContent, srcReq) {
   try {
-    let retBody = {};
-    retBody.email = bodyContent.user;
-    retBody.senha = bodyContent.password;
-    bodyContent = retBody;
+    console.log(bodyContent);
+    // let retBody = {};
+    // retBody.email = bodyContent.email;
+    // retBody.senha = bodyContent.senha;
+    // bodyContent = retBody;
   } catch (e) {
     console.log(`ERRO! ${e}`);
   }
