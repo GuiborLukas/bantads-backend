@@ -20,9 +20,9 @@ export class ConsultarSaldoComponent implements OnInit {
   ngOnInit(): void {
     if (this.clienteService.clienteLogado) {
       this.clienteService.buscarContaPorCliente(this.clienteService.clienteLogado).subscribe(
-        (contas: Conta[]) => {
-          if ((contas != null) && (contas.length > 0)) {
-            this.conta = contas[0];
+        (contas: Conta) => {
+          if (contas != null) {
+            this.conta = contas;
           }
         }
       );

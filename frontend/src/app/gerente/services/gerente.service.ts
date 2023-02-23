@@ -15,7 +15,6 @@ export class GerenteService {
 
   private BASE_URL_GERENTE = environment.BASE_URL + "/gerentes";
   private BASE_URL_CLIENTE = environment.BASE_URL + "/clientes";
-  private BASE_URL_CONTA = environment.BASE_URL + "/contas";
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -34,37 +33,39 @@ export class GerenteService {
 
   constructor(private httpClient: HttpClient) { }
 
-  recusar(cliente: Cliente): void {
+  buscaContasInativasPorGerente(): Observable<Conta[]> {
+    return this.httpClient.get<Conta[]>(this.BASE_URL_GERENTE + `/${this.gerenteLogado.id}/contaspendentes`, this.httpOptions);
+  }
 
+  aceitarCliente(clienteID: String): Observable<boolean> {
+    return this.httpClient.put<boolean>(this.BASE_URL_GERENTE + `/${this.gerenteLogado.id}/aprovarcliente?id_cliente=${clienteID}`, this.httpOptions);
+  }
+
+  recusarCliente(clienteID: String): Observable<boolean>  {
+    return this.httpClient.put<boolean>(this.BASE_URL_GERENTE + `/${this.gerenteLogado.id}/rejeitarcliente?id_cliente=${clienteID}`, this.httpOptions);
+  }
+
+  listarContas(): Observable<Conta[]> {
+    return this.httpClient.get<Conta[]>(this.BASE_URL_GERENTE + `/${this.gerenteLogado.id}/meusclientes` , this.httpOptions);
+  }
+
+  listarTop5Clientes(): Observable<Conta[]> {
+    return this.httpClient.get<Conta[]>(this.BASE_URL_GERENTE + `/${this.gerenteLogado.id}/top5clientes` , this.httpOptions);
   }
 
   buscarClientePorId(idCliente: number): Observable<Cliente> {
     return this.httpClient.get<Cliente>(`${this.BASE_URL_CLIENTE}/${idCliente}`, this.httpOptions);
   }
-
-  listarContas(): Observable<Conta[]> {
-    return this.httpClient.get<Conta[]>(this.BASE_URL_CONTA, this.httpOptions);
-  }
-
-  buscaContasPorGerente(gerente: Gerente): Observable<Conta[]> {
-    return this.httpClient.get<Conta[]>(this.BASE_URL_CONTA + `?gerenteId=${gerente.id}`, this.httpOptions);
-  }
-
-  buscaContasInativasPorGerente(gerente: Gerente): Observable<Conta[]> {
-    return this.httpClient.get<Conta[]>(this.BASE_URL_CONTA + `contas?gerente.id=${gerente.id}&ativa=false`, this.httpOptions);
-  }
-
-  buscarContaPorId(contaId: number): Observable<Conta> {
-    return this.httpClient.get<Conta>(this.BASE_URL_CONTA +  `contas/${contaId}`, this.httpOptions);
-  }
-
-  buscarGerentePorUsuario(usuario: Usuario): Observable<Gerente[]> {
-    return this.httpClient.get<Gerente[]>(this.BASE_URL_GERENTE + `gerentes?usuario.id=${usuario.id}`, this.httpOptions);
-  }
-
-  inserirUsuárioCliente(user: Usuario): Observable<Usuario> {
-    return this.httpClient.post<Usuario>(this.BASE_URL_GERENTE + 'usuarios', JSON.stringify(user), this.httpOptions);
-  }
-
-
 }
+
+  // buscaContasPorGerente(gerente: Gerente): Observable<Conta[]> {
+  //   return this.httpClient.get<Conta[]>(this.BASE_URL_CONTA + `?gerenteId=${gerente.id}`, this.httpOptions);
+  // }
+
+  // buscarGerentePorUsuario(usuario: Usuario): Observable<Gerente[]> {
+  //   return this.httpClient.get<Gerente[]>(this.BASE_URL_GERENTE + `gerentes?usuario.id=${usuario.id}`, this.httpOptions);
+  // }
+
+  // buscarContaPorId(contaId: number): Observable<Conta> {
+  //   return this.httpClient.get<Conta>(this.BASE_URL_GERENTE +  `contas/${contaId}`, this.httpOptions);
+  // }

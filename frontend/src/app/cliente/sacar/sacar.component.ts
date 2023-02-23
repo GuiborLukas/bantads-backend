@@ -26,9 +26,9 @@ export class SacarComponent implements OnInit {
 
   ngOnInit(): void {
     this.clienteService.buscarContaPorCliente(this.clienteService.clienteLogado).subscribe(
-      (contas: Conta[]) => {
-        if ((contas != null) && (contas.length > 0)) {
-          this.conta = contas[0];
+      (contas: Conta) => {
+        if (contas != null) {
+          this.conta = contas;
         }
       }
     );

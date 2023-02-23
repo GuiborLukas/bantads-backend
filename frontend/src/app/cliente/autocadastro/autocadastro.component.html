@@ -53,7 +53,7 @@
                 #nome="ngModel" minlength="2" required />
               <div *ngIf="nome.errors && (nome.dirty || nome.touched)" class="alert alert-danger">
                 <div [hidden]="!nome?.errors?.['required']">
-                  Digite o nome do gerente.
+                  Digite seu nome completo.
                 </div>
                 <div [hidden]="!nome?.errors?.['minlenght']">
                   O nome deve conter ao menos 2 caracteres.
@@ -66,7 +66,7 @@
                 #email="ngModel" minlength="2" required />
               <div *ngIf="email.errors && (email.dirty || email.touched)" class="alert alert-danger">
                 <div [hidden]="!email?.errors?.['required']">
-                  Digite o email do cliente.
+                  Digite seu email.
                 </div>
                 <div [hidden]="!email?.errors?.['minlenght']">
                   O email deve conter ao menos 2 caracteres.
@@ -91,7 +91,7 @@
                     telefone.errors && (telefone.dirty || telefone.touched)
                   " class="alert alert-danger">
                 <div [hidden]="!telefone?.errors?.['required']">
-                  Digite o telefone do cliente.
+                  Digite seu telefone.
                 </div>
                 <div [hidden]="!telefone?.errors?.['minlength']">
                   O telefone deve conter 11 caracteres.

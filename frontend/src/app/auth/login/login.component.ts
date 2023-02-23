@@ -38,11 +38,10 @@ export class LoginComponent implements OnInit {
       this.loginService.login(this.login).subscribe(
         (loginResponse: LoginResponse) => {
           if (loginResponse != null) {
-            let { auth: isAuth, token, usuario: usu } = loginResponse;
+            let { auth: isAuth, token, data: usu } = loginResponse;
             if (isAuth) {
               this.loginService.userToken = token!;
-              this.loginService.usuarioLogado = new Usuario(usu!.nome, usu!.email, undefined, usu!.perfil);
-
+              this.loginService.usuarioLogado = new Usuario(usu!.nome, usu!.email, usu!.perfil, usu!.id);
               this.loading = false;
               this.router.navigate([`${usu!.perfil?.toLowerCase()}`]);
 

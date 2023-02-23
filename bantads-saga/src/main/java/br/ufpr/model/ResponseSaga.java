@@ -10,16 +10,16 @@ public class ResponseSaga implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private boolean success;
-	private Object data;
+	private String message;
 	
 	public ResponseSaga() {
 		super();
 	}
 	
-	public ResponseSaga(boolean success, Object data) {
+	public ResponseSaga(boolean success, String message) {
 		super();
 		this.success = success;
-		this.data = data;
+		this.message = message;
 	}
 
 	public boolean isSuccess() {
@@ -30,18 +30,18 @@ public class ResponseSaga implements Serializable{
 		this.success = success;
 	}
 
-	public Object getData() {
-		return data;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setData(Object data) {
-		this.data = data;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 	
 	public String toString() {
         return "ResponseSaga [" +
                 "success=" + success +
-                ", data='" + data + '\'' +
+                ", message='" + message + '\'' +
                 ']';
     }
 	  

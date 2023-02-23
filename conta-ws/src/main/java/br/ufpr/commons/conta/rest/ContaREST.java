@@ -116,8 +116,8 @@ public class ContaREST {
 					.body(idsMelhores.stream().map(e -> mapper.map(e, Long.class)).collect(Collectors.toList()));
 		}
 	}
-
-	@GetMapping("/melhores/cntente")
+	
+	@GetMapping("/gerente/melhor")
 	public ResponseEntity<Long> obterMelhorGerente() {
 		List<ContaD> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();
@@ -145,8 +145,8 @@ public class ContaREST {
 		Long idMelhorGerente = lista.get(0).getGerente();
 		return ResponseEntity.status(HttpStatus.OK).body(mapper.map(idMelhorGerente, Long.class));
 	}
-
-	@GetMapping("/piores/cntente")
+	
+	@GetMapping("/gerente/pior")
 	public ResponseEntity<Long> obterPiorGerente() {
 		List<ContaD> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();
