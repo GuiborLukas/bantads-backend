@@ -15,7 +15,7 @@ public interface ContaConsultaRepository extends JpaRepository<ContaD, Long>{
 
 	List<ContaD> findByGerente(Long gerente);
 	
-	List<ContaD> findByGerente(Long gerente);
+//	List<ContaD> findByGerente(Long gerente);
 	
 }
 
