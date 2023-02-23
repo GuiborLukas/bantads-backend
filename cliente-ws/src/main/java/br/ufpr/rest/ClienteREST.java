@@ -91,7 +91,7 @@ public class ClienteREST {
 				Optional<Cliente> cli = repo.findById(id);
 	
 				if (cli.isEmpty()) {
-					return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+					return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 				} else {
 					cliente.setId(id);
 					repo.save(mapper.map(cliente, Cliente.class));
