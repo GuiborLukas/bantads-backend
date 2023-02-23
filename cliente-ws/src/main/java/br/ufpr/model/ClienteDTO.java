@@ -4,18 +4,27 @@ import java.io.Serializable;
 
 public class ClienteDTO implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String nome;
 	private String email;
 	private String cpf;
 	private String telefone;
 	private double salario;
+	private Endereco endereco;
+	
+	private boolean success;
+	private String message;
 
 	public ClienteDTO() {
 		super();
 	}
 
-	public ClienteDTO(Long id, String nome, String email, String cpf, String telefone, double salario) {
+	public ClienteDTO(Long id, String nome, String email, String cpf, String telefone, double salario,
+			Endereco endereco, boolean success, String message) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -23,6 +32,9 @@ public class ClienteDTO implements Serializable {
 		this.cpf = cpf;
 		this.telefone = telefone;
 		this.salario = salario;
+		this.endereco = endereco;
+		this.success = success;
+		this.message = message;
 	}
 
 	public Long getId() {
@@ -73,6 +85,30 @@ public class ClienteDTO implements Serializable {
 		this.salario = salario;
 	}
 	
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
 	public String toString() {
         return "ClienteDTO [" +
                 "id=" + id +
@@ -81,6 +117,7 @@ public class ClienteDTO implements Serializable {
                 ", cpf='" + cpf + '\'' +
                 ", telefone='" + telefone + '\'' +
                 ", salario='" + salario + '\'' +
-                ']';
+                ", success=" + success + ", message='"
+				+ message + '\'' + ']';
     }
 }
