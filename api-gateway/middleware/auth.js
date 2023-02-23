@@ -13,11 +13,10 @@ const validaJWT = (req, res, next) => {
         .status(401)
         .json({ auth: false, message: "Erro ao autenticar o token." });
     }
+    // se tudo estiver ok, salva no request para uso posterior
+    req.userId = decoded.id;
+    next();
   });
-
-  // se tudo estiver ok, salva no request para uso posterior
-  req.userId = decoded.id;
-  next();
 };
 
 module.exports = validaJWT;

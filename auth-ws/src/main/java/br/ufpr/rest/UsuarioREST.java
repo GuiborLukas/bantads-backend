@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.ufpr.model.Usuario;
 import br.ufpr.model.UsuarioDTO;
@@ -89,6 +90,25 @@ public class UsuarioREST {
 
 		} catch (Exception e) {
 			System.err.println("Erro buscar usuario por ID:" + e.toString());
+			return ResponseEntity.internalServerError().body(null);
+		}
+	}
+
+	@GetMapping("/usuario")
+	public ResponseEntity<UsuarioDTO> buscaUsuarioPorEmail(@RequestParam String email) {
+		try {
+			// Busca o usuario pelo email
+			Usuario usu= repository.findByEmail(email);
+			if (usu != null) {
+				// Se ele existe, retorna HTTP 200 - OK e o usuario
+				return ResponseEntity.ok(mapper.map(usu, UsuarioDTO.class));
+			} else {
+				// Caso contrario, retorna HTTP 404 = Not Found
+				return ResponseEntity.notFound().build();
+			}
+
+		} catch (Exception e) {
+			System.err.println("Erro buscar usuario por Email:" + e.toString());
 			return ResponseEntity.internalServerError().body(null);
 		}
 	}

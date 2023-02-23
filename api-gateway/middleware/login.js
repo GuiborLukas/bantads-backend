@@ -32,7 +32,7 @@ const authResponseDecorator = function (
       var objBody = JSON.parse(str);
       const id = objBody.id;
       const token = jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: 300,
+        expiresIn: "2 days" ,
       });
       let objRet = {
         id: objBody.id,

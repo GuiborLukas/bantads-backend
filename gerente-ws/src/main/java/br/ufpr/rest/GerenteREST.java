@@ -29,10 +29,10 @@ import br.ufpr.repository.GerenteRepository;
 @RestController
 @RequestMapping(value = "gerentes")
 public class GerenteREST {
-	
+
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
-	
+
 	@Autowired
 	private ObjectMapper objectMapper;
 
@@ -47,7 +47,7 @@ public class GerenteREST {
 
 		List<Gerente> lista = repo.findAll();
 
-		if(lista.isEmpty()) {
+		if (lista.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		}
 		return ResponseEntity.status(HttpStatus.OK)
@@ -68,13 +68,20 @@ public class GerenteREST {
 
 	@PostMapping
 	public ResponseEntity<GerenteDTO> inseriGerente(@RequestBody GerenteDTO gerente) {
-		
+
 		try {
-		repo.save(mapper.map(gerente, Gerente.class));
-		Optional<Gerente> ger = repo.findByCpf(gerente.getCpf());
-		return ResponseEntity.status(HttpStatus.OK).body(mapper.map(ger, GerenteDTO.class));
-		}catch(Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);	
+			System.err.println(1);
+			Gerente ger = repo.save(mapper.map(gerente, Gerente.class));
+			System.err.println(2);
+			Optional<Gerente> gerOpt = repo.findById(ger.getId());
+			System.err.println(3);
+			if (!gerOpt.isPresent()) {
+				throw new Exception("Criação do gerente não foi realizada com sucesso");
+			}
+			System.err.println(4);
+			return ResponseEntity.status(HttpStatus.CREATED).body(mapper.map(gerOpt.get(), GerenteDTO.class));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
 

@@ -45,8 +45,8 @@ services:
   #     - api_gateway
 
   #Broker RabbitMQ para SAGA Orquestrada
-  bantads_broker:
-    container_name: bantads_broker
+  bantads-broker:
+    container_name: bantads-broker
     image: rabbitmq:3.10-management
     restart: on-failure
     volumes:
@@ -58,10 +58,26 @@ services:
     networks:
       - backend
 
+  #Orquestrador SAGA
+  bantads-saga:
+    container_name: bantads-saga
+    build:
+      context: ./../bantads-saga
+      dockerfile: Dockerfile
+    ports:
+      - 5004:8080
+    environment:
+      RABBITMQ_HOST: bantads-broker
+    restart: on-failure
+    depends_on:
+      - bantads-broker
+    networks:
+      - backend
+
   # API Gateway
-  api_gateway:
+  api-gateway:
     # image: bantads-api-gateway
-    container_name: bantads_api_gateway
+    container_name: bantads-api-gateway
     build:
       context: ./../api-gateway/
       dockerfile: APIGateway.Dockerfile
@@ -71,11 +87,13 @@ services:
       - ./../api-gateway/:/usr/src/app
     networks:
       - backend
+    depends_on:
+      - bantads-saga
       # - frontend
 
   # MongoDB AUTH Database
-  bantads_authdb:
-    container_name: bantads_authdb
+  bantads-authdb:
+    container_name: bantads-authdb
     image: mongo
     restart: always
     ports:
@@ -92,26 +110,27 @@ services:
 
   #Authentication Service
   auth-ws:
-    container_name: bantads_auth-ws
+    container_name: bantads-auth-ws
     build:
       context: ./../auth-ws
       dockerfile: Dockerfile
     ports:
       - 5000:8080
     environment:
-      MONGO_HOST: bantads_authdb
-      RABBITMQ_HOST: bantads_broker
+      MONGO_HOST: bantads-authdb
+      RABBITMQ_HOST: bantads-broker
     restart: on-failure
     depends_on:
-      - bantads_authdb
-      - bantads_broker
+      - bantads-authdb
+      - bantads-saga
+      - bantads-broker
     networks:
       - auth_db
       - backend
 
   #Cliente DB
-  cliente_db:
-    container_name: bantads_cliente_db
+  cliente-db:
+    container_name: bantads-cliente-db
     build:
       context: .
       dockerfile: ./Postgresql.Dockerfile
@@ -129,27 +148,27 @@ services:
 
   #Cliente Service
   cliente-ws:
-    container_name: bantads_cliente-ws
+    container_name: bantads-cliente-ws
     build:
       context: ./../cliente-ws
       dockerfile: Dockerfile
     environment:
-      DATABASE_HOST: cliente_db
+      DATABASE_HOST: cliente-db
       DATABASE_PORT: 5432
-      RABBITMQ_HOST: bantads_broker
+      RABBITMQ_HOST: bantads-broker
     restart: on-failure
     ports:
       - 5001:8080
     depends_on:
-      - cliente_db
-      - bantads_broker
+      - cliente-db
+      - bantads-saga
     networks:
       - backend
       - cliente_db
 
   #Gerente DB
-  gerente_db:
-    container_name: bantads_gerente_db
+  gerente-db:
+    container_name: bantads-gerente-db
     build:
       context: .
       dockerfile: ./Postgresql.Dockerfile
@@ -167,27 +186,27 @@ services:
 
   #Cliente Service
   gerente-ws:
-    container_name: bantads_gerente-ws
+    container_name: bantads-gerente-ws
     build:
       context: ./../gerente-ws
       dockerfile: Dockerfile
     environment:
-      DATABASE_HOST: gerente_db
+      DATABASE_HOST: gerente-db
       DATABASE_PORT: 5432
-      RABBITMQ_HOST: bantads_broker
+      RABBITMQ_HOST: bantads-broker
     restart: on-failure
     ports:
       - 5002:8080
     depends_on:
-      - gerente_db
-      - bantads_broker
+      - gerente-db
+      - bantads-saga
     networks:
       - backend
       - gerente_db
 
   #Conta DB - COMMAND
-  conta_command_db:
-    container_name: bantads_conta_command_db
+  conta-command-db:
+    container_name: bantads-conta-command-db
     build:
       context: .
       dockerfile: ./Postgresql.Dockerfile
@@ -204,8 +223,8 @@ services:
       - conta_db
 
   #Conta DB - QUERY
-  conta_query_db:
-    container_name: bantads_conta_query_db
+  conta-query-db:
+    container_name: bantads-conta-query-db
     build:
       context: .
       dockerfile: ./Postgresql.Dockerfile
@@ -223,23 +242,23 @@ services:
 
   #Conta Service
   conta-ws:
-    container_name: bantads_conta-ws
+    container_name: bantads-conta-ws
     build:
       context: ./../conta-ws
       dockerfile: Dockerfile
     environment:
-      DB_COMMAND_HOST: conta_command_db
+      DB_COMMAND_HOST: conta-command-db
       DB_COMMAND_PORT: 5432
-      DB_QUERY_HOST: conta_query_db
+      DB_QUERY_HOST: conta-query-db
       DB_QUERY_PORT: 5432
-      RABBITMQ_HOST: bantads_broker
+      RABBITMQ_HOST: bantads-broker
     restart: on-failure
     ports:
       - 5003:8080
     depends_on:
-      - conta_command_db
-      - conta_query_db
-      - bantads_broker
+      - conta-command-db
+      - conta-query-db
+      - bantads-saga
     networks:
       - backend
       - conta_db
