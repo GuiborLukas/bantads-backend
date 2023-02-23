@@ -103,7 +103,7 @@ public class ContaREST {
 		}
 	}
 	
-	@GetMapping("/melhores/cntente")
+	@GetMapping("/gerente/melhor")
 	public ResponseEntity<Long> obterMelhorGerente() {
 		List<ContaD> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();
@@ -133,7 +133,7 @@ public class ContaREST {
 				.body(mapper.map(idMelhorGerente, Long.class));
 	}
 	
-	@GetMapping("/piores/cntente")
+	@GetMapping("/gerente/pior")
 	public ResponseEntity<Long> obterPiorGerente() {
 		List<ContaD> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();

@@ -1,6 +1,9 @@
 package br.ufpr.consulta.conta.consumer;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -16,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.ufpr.commons.Constants;
 import br.ufpr.commons.conta.model.ContaD;
 import br.ufpr.commons.conta.model.ContaDTO;
+import br.ufpr.commons.conta.utils.CounterGerente;
 import br.ufpr.consulta.conta.repository.ContaConsultaRepository;
 
 @Component
@@ -53,6 +57,43 @@ public class ContaConsultaConsumer {
 		}
 	return;
 	}
+	
+	@RabbitHandler
+	@RabbitListener(queues=Constants.FILA_MELHOR_GERENTE)
+	public Long obterMelhorGerente() throws JsonMappingException, JsonProcessingException {
+		Long idMelhorGerente = null;
+		try {
+			List<ContaD> contas = repo.findAll();
+			List<CounterGerente> lista = new ArrayList<>();
+			for (ContaD p : contas){
+					boolean found = false;
+					if(lista.isEmpty()) {
+						lista.add(new CounterGerente(p.getGerente(), 1));
+					}else{
+						for(CounterGerente counter: lista) {
+							if(counter.getGerente() == p.getGerente()) {
+								int qtd = counter.getCount();
+								counter.setCount(qtd + 1);
+								found = true;
+								break;
+							}
+						}
+						if(!found) {
+							lista.add(new CounterGerente(p.getGerente(), 1));
+						}
+					
+				}
+			}
+			Collections.sort(lista);
+			Collections.reverse(lista);
+			idMelhorGerente = lista.get(0).getGerente();
+			
+		} catch (Exception e) {
+			return null;
+		}
+		return idMelhorGerente;
+	}
+	
 	
 	@RabbitHandler
 	@RabbitListener(queues=Constants.FILA_ALTERAR_CONTA_C)
