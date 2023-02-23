@@ -21,6 +21,9 @@ public class Constants {
 	public static final String FILA_ALTERAR_CONTA_C = "alterar-conta-consulta";
 	public static final String FILA_DELETAR_CONTA_C = "deletar-conta-consulta";
 	
+	public static final String FILA_MELHOR_GERENTE = "consultar-melhor-gerente";
+	
+	
 	public static final String FILA_CONSULTAR_MOVIMENTACAO_C = "consultar-movimentacao-consulta";
 	public static final String FILA_INSERIR_MOVIMENTACAO_C = "inserir-movimentacao-consulta";
 	public static final String FILA_ALTERAR_MOVIMENTACAO_C = "alterar-movimentacao-consulta";
