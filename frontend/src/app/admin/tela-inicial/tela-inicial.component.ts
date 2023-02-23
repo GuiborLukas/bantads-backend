@@ -30,7 +30,7 @@ export class TelaInicialComponent implements OnInit {
         if (data != null) {
           data.forEach((gerente, idx, arr) => {
             //Busca todas as contas do gerente
-            this.gerenteService.buscaContasPorGerente(gerente).subscribe(
+            this.adminService.buscaContasPorGerente(gerente).subscribe(
               (contas: Conta[]) => {
                 //Total de clientes = total de contas
                 let totalClientes: number = contas.length;
