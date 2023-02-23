@@ -14,7 +14,7 @@ export class ConsultarTodosClientesComponent implements OnInit {
   constructor(private gerenteService: GerenteService, private loginService: LoginService) { }
 
   ngOnInit(): void {
-    this.gerenteService.buscaContasPorGerente(this.gerenteService.gerenteLogado).subscribe(
+    this.gerenteService.listarContas().subscribe(
       (contas: Conta[]) => {
         if (contas != null) {
           this.contas = contas.sort((a, b) => (a.cliente?.nome! < b.cliente?.nome!) ? -1 : 1);

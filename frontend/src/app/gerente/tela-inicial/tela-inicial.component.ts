@@ -16,18 +16,10 @@ export class TelaInicialComponent implements OnInit {
   constructor(private gerenteService: GerenteService, private loginService: LoginService) { }
 
   ngOnInit(): void {
-    this.gerenteService.buscarGerentePorUsuario(this.loginService.usuarioLogado).subscribe(
-      (gerentes: Gerente[]) => {
-        if ((gerentes != null) && (gerentes.length) > 0) {
-          this.gerenteService.gerenteLogado = gerentes[0];
-          this.gerenteService.buscaContasInativasPorGerente(this.gerenteService.gerenteLogado).subscribe(
-            (data: Conta[]) => {
-              if (data != null) {
-                this.contas = data;
-              }
-            }
-          );
-
+    this.gerenteService.buscaContasInativasPorGerente().subscribe(
+      (data: Conta[]) => {
+        if (data != null) {
+          this.contas = data;
         }
       }
     );
