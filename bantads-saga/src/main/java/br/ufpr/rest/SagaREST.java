@@ -46,7 +46,7 @@ public class SagaREST {
 		
 	}
 	
-	@PostMapping("/alteracao/cliente")
+	@PostMapping("/alteracaoliente")
 	public ResponseEntity<ClienteDTO> iniciaSagaAlteraPerfil(@RequestBody ClienteDTO cliente) throws JsonProcessingException {
 		var json = objectMapper.writeValueAsString(cliente);
 		try {
@@ -60,7 +60,7 @@ public class SagaREST {
 		
 	}
 	
-	@PostMapping("/gerente/remover")
+	@PostMapping("/removergerente")
 	public ResponseEntity<ClienteDTO> iniciaSagaGerenteRemover(@RequestBody GerenteDTO cliente) throws JsonProcessingException {
 		var json = objectMapper.writeValueAsString(cliente);
 		try {
@@ -74,7 +74,7 @@ public class SagaREST {
 		
 	}
 	
-	@PostMapping("/gerente/remover")
+	@PostMapping("/incluirgerente")
 	public ResponseEntity<ClienteDTO> iniciaSagaGerenteInserir(@RequestBody GerenteDTO gerente) throws JsonProcessingException {
 		var json = objectMapper.writeValueAsString(gerente);
 		try {
