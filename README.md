@@ -1,10 +1,15 @@
 # BANTADS BACKEND
+Alunos: 
+  - Francielle Mazzarotto Stival
+  - Guilherme Janke
+  - Luis Augusto Ferraz de Souza
+  - Lukas Guibor
+
 ## Execução
-- Na raiz do projeto execute
+- Na raiz do projeto execute o PowerShell Script
+- ./BANTADS_UP.ps1
 
-`docker-compose -f .\.bantads_docker\docker-compose.yml up`
-
-Isso vai instanciar todos os containers, tanto dos banco de dados, quanto dos serviços e do broker de mensagens.
+Ele irá construir todas as imagens, containers e executar o frontend da aplicação.
 
 ## Diretórios
   - .bantads_docker

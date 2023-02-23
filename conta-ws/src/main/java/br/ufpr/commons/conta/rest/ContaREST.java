@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,16 +37,16 @@ import br.ufpr.consulta.conta.repository.ContaConsultaRepository;
 @RestController
 @RequestMapping(value = "contas")
 public class ContaREST {
-	
+
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
-	
+
 	@Autowired
 	private ObjectMapper objectMapper;
 
 	@Autowired
 	private ContaComandoRepository repoComando;
-	
+
 	@Autowired
 	private ContaConsultaRepository repoConsulta;
 
@@ -73,6 +74,18 @@ public class ContaREST {
 		}
 	}
 
+	@GetMapping("/")
+	public ResponseEntity<List<ContaDTO>> obterContaPeloGerente(@RequestParam(name = "id_gerente") Long idGerente,
+			@RequestParam(name = "status") String statusConta) {
+		List<ContaD> contas = repoConsulta.findByGerente(idGerente);
+		if (contas.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(contas.stream().map(e -> mapper.map(e, ContaDTO.class)).collect(Collectors.toList()));
+		}
+	}
+
 	@GetMapping("/cliente/{idCliente}")
 	public ResponseEntity<ContaDTO> obterContaPeloIdCliente(@PathVariable("idCliente") Long idCliente) {
 		Optional<ContaD> conta = repoConsulta.findByCliente(idCliente);
@@ -82,7 +95,7 @@ public class ContaREST {
 			return ResponseEntity.status(HttpStatus.OK).body(mapper.map(conta, ContaDTO.class));
 		}
 	}
-	
+
 	@GetMapping("/melhores/contas")
 	public ResponseEntity<List<Long>> obterMelhoresContas() {
 		List<ContaD> contas = repoConsulta.findAll();
@@ -93,13 +106,14 @@ public class ContaREST {
 			Collections.reverse(contas);
 			List<Long> idsMelhores = new ArrayList<>();
 			int count = 0;
-			for(ContaD c: contas) {
+			for (ContaD c : contas) {
 				idsMelhores.add(c.getCliente());
 				count++;
-				if(count == 5) 
+				if (count == 5)
 					break;
 			}
-			return ResponseEntity.status(HttpStatus.OK).body(idsMelhores.stream().map(e -> mapper.map(e, Long.class)).collect(Collectors.toList()));
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(idsMelhores.stream().map(e -> mapper.map(e, Long.class)).collect(Collectors.toList()));
 		}
 	}
 	
@@ -107,61 +121,58 @@ public class ContaREST {
 	public ResponseEntity<Long> obterMelhorGerente() {
 		List<ContaD> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();
-		for (ContaD p : contas){
-				boolean found = false;
-				if(lista.isEmpty()) {
+		for (ContaD p : contas) {
+			boolean found = false;
+			if (lista.isEmpty()) {
+				lista.add(new CounterGerente(p.getGerente(), 1));
+			} else {
+				for (CounterGerente counter : lista) {
+					if (counter.getGerente() == p.getGerente()) {
+						int qtd = counter.getCount();
+						counter.setCount(qtd + 1);
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
 					lista.add(new CounterGerente(p.getGerente(), 1));
-				}else{
-					for(CounterGerente counter: lista) {
-						if(counter.getGerente() == p.getGerente()) {
-							int qtd = counter.getCount();
-							counter.setCount(qtd + 1);
-							found = true;
-							break;
-						}
-					}
-					if(!found) {
-						lista.add(new CounterGerente(p.getGerente(), 1));
-					}
-				
+				}
+
 			}
 		}
 		Collections.sort(lista);
 		Collections.reverse(lista);
 		Long idMelhorGerente = lista.get(0).getGerente();
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(mapper.map(idMelhorGerente, Long.class));
+		return ResponseEntity.status(HttpStatus.OK).body(mapper.map(idMelhorGerente, Long.class));
 	}
 	
 	@GetMapping("/gerente/pior")
 	public ResponseEntity<Long> obterPiorGerente() {
 		List<ContaD> contas = repoConsulta.findAll();
 		List<CounterGerente> lista = new ArrayList<>();
-		for (ContaD p : contas){
-				boolean found = false;
-				if(lista.isEmpty()) {
+		for (ContaD p : contas) {
+			boolean found = false;
+			if (lista.isEmpty()) {
+				lista.add(new CounterGerente(p.getGerente(), 1));
+			} else {
+				for (CounterGerente counter : lista) {
+					if (counter.getGerente() == p.getGerente()) {
+						int qtd = counter.getCount();
+						counter.setCount(qtd + 1);
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
 					lista.add(new CounterGerente(p.getGerente(), 1));
-				}else{
-					for(CounterGerente counter: lista) {
-						if(counter.getGerente() == p.getGerente()) {
-							int qtd = counter.getCount();
-							counter.setCount(qtd + 1);
-							found = true;
-							break;
-						}
-					}
-					if(!found) {
-						lista.add(new CounterGerente(p.getGerente(), 1));
-					}
-				
+				}
+
 			}
 		}
 		Collections.sort(lista);
 		Long idMelhorGerente = lista.get(0).getGerente();
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(mapper.map(idMelhorGerente, Long.class));
+		return ResponseEntity.status(HttpStatus.OK).body(mapper.map(idMelhorGerente, Long.class));
 	}
-	
 
 	@PostMapping
 	public ResponseEntity<ContaDTO> inserirConta(@RequestBody Conta conta) {
@@ -182,9 +193,10 @@ public class ContaREST {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ContaDTO> alterarConta(@PathVariable("id") Long id, @RequestBody Conta conta) throws JsonProcessingException {
+	public ResponseEntity<ContaDTO> alterarConta(@PathVariable("id") Long id, @RequestBody Conta conta)
+			throws JsonProcessingException {
 		Optional<Conta> cnt = repoComando.findById(id);
-		
+
 		if (cnt.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		} else {
