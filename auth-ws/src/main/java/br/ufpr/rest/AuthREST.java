@@ -58,4 +58,5 @@ public class AuthREST {
 			return ResponseEntity.internalServerError().body(null);
 		}
 	}
+	
 }

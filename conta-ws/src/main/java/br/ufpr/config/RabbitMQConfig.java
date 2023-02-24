@@ -46,11 +46,28 @@ public class RabbitMQConfig {
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_CONTA_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_CONTA_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_CONTA_C));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_MELHOR_GERENTE));
 		
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_MOVIMENTACAO_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_MOVIMENTACAO_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_MOVIMENTACAO_C));
 		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_MOVIMENTACAO_C));
 
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_CLIENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_CLIENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_CLIENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_CLIENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_GERENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_GERENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_GERENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_GERENTE));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_USUARIO));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_USUARIO));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_USUARIO));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_USUARIO));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_CONSULTAR_AUTH));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_INSERIR_AUTH));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_ALTERAR_AUTH));
+		this.amqpAdmin.declareQueue(this.fila(Constants.FILA_DELETAR_AUTH));
 	}
 }

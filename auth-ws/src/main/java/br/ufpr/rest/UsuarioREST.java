@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.model.Usuario;
 import br.ufpr.model.UsuarioDTO;
 import br.ufpr.repository.UsuarioRepository;
 
+@RestController
 public class UsuarioREST {
 	@Autowired
 	private UsuarioRepository repository;
